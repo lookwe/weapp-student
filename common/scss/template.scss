@@ -1,33 +1,8 @@
-.u-view {
-	padding: 40px 20px 0px 20px;
-	&__title {
-		font-size: 14px;
-		margin-bottom: 10px;
-	}
-}
-
-.u-block{
-	padding: 14px;
-	&__section{
-		margin-bottom:10px;
-	}
-	&__title {
-		margin-top:10px;
-		font-size: 15px;
-		color: $u-content-color;
-		margin-bottom:10px;
-	}
-	&__flex{
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-	}
-}
-
 .u-page {
 	padding: 0 15px;
 }
 
+// 大盒子
 .u-box {
 	margin: 10px 0;
 	&__title {
@@ -37,6 +12,7 @@
 	}
 }
 
+// 小盒子
 .u-demo-block {
 	margin-bottom: 23px;
 	
@@ -45,7 +21,6 @@
 		color: $uni-text-color;
 		margin-bottom: 20px;
 		padding-bottom: 20px;
-		
 	}
 	
 	&__content {

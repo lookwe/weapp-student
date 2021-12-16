@@ -1,22 +1,17 @@
 <template>
-	<view>
-		非购买课程详情
-	</view>
+  <view class="mod-template u-page">
+    <view class=""> 非购买课程详情 </view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			
-		}
-	}
+export default {
+  data() {
+    return {}
+  },
+  methods: {}
+}
 </script>
 
 <style>
-
 </style>

@@ -198,6 +198,7 @@ export default {
 
   .mod-member {
     font-size: 18px;
+    height: 35px;
 
     .vip {
       margin-right: 15px;
@@ -206,6 +207,7 @@ export default {
     .is-active {
       font-size: 21px;
       color: $u-primary;
+      transition: color 0.3s;
     }
   }
 
