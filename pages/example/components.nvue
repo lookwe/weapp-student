@@ -1,0 +1,68 @@
+<template>
+	<view class="wrap">
+		<page-nav :desc="desc"></page-nav>
+		<view class="list-wrap">
+			1232
+		</view>
+		<u-gap height="30" bgColor="#fff"></u-gap>
+		<u-icon name="heart-fill" color="#2979ff" size="28"></u-icon>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				desc: 'uView UI，是全面兼容nvue的uni-app生态框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水。',
+			}
+		},
+		computed: {
+			getIcon() {
+				return path => {
+					return 'https://cdn.uviewui.com/uview/example/' + path + '.png';
+				}
+			},
+		},
+		onShow() {
+			console.log(uni.$u);
+		},
+		methods: {
+			openPage(detail) {
+				const path = detail.name
+				// #ifdef APP-NVUE
+				// 目前安卓不支持steps和tooltip等组件
+				if(uni.$u.os() === 'android') {
+					const noSupportForAndroid = ['steps', 'tooltip']
+					for(let i = 0; i < noSupportForAndroid.length; i ++) {
+						if(path.indexOf(noSupportForAndroid[i]) > -1) {
+							return uni.$u.toast('安卓nvue下暂不支持此组件')
+						}
+					}
+				}
+				// #endif
+				uni.$u.route({
+					url: path
+				})
+			},
+		}
+	}
+</script>
+
+<style>
+	/* page {
+		background-color: rgb(240, 242, 244);
+	} */
+</style>
+
+<style lang="scss" >
+	
+	.u-cell-icon1 {
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 8rpx;
+	}
+	
+	.u-cell-group__title__text {
+		font-weight: bold;
+	}
+</style>

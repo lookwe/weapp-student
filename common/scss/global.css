@@ -1,0 +1,151 @@
+@charset "UTF-8";
+/*-------------- 字体 START ------------*/
+.fz-12 {
+  font-size: 12px; }
+
+.fz-13 {
+  font-size: 13px; }
+
+.fz-14 {
+  font-size: 14px; }
+
+.fz-15 {
+  font-size: 15px; }
+
+.fz-16 {
+  font-size: 16px; }
+
+.fz-17 {
+  font-size: 17px; }
+
+.fz-18 {
+  font-size: 18px; }
+
+.fz-19 {
+  font-size: 19px; }
+
+.fz-20 {
+  font-size: 20px; }
+
+.fz-21 {
+  font-size: 21px; }
+
+.fz-22 {
+  font-size: 22px; }
+
+.fz-23 {
+  font-size: 23px; }
+
+.fz-24 {
+  font-size: 24px; }
+
+.fw-500 {
+  font-weight: 500; }
+
+.fw-600 {
+  font-weight: 600; }
+
+.text-center {
+  text-align: center; }
+
+.tl {
+  text-align: left; }
+
+.tr {
+  text-align: right; }
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block; }
+
+/*-------------- 字体 END ------------*/
+/*-------------- 颜色 END ------------*/
+.c-6 {
+  color: #666; }
+
+.c-w {
+  color: #fff; }
+
+.c-r {
+  color: #f0544f; }
+
+/*-------------- 颜色 END ------------*/
+/*-------------- 弹性布局  ------------*/
+.flex {
+  display: flex; }
+
+.flex1 {
+  flex: 1; }
+
+.ac {
+  align-items: center; }
+
+.aj-center {
+  align-items: center;
+  justify-content: center; }
+
+.as {
+  align-items: flex-start; }
+
+.ae {
+  align-items: flex-end; }
+
+.jc {
+  justify-content: center; }
+
+.jsb {
+  justify-content: space-between; }
+
+.js {
+  justify-content: flex-start; }
+
+.je {
+  justify-content: flex-end; }
+
+.f-d-c {
+  flex-direction: column; }
+
+.f-w {
+  flex-wrap: wrap; }
+
+/*-------------- 布局 END ------------*/
+/*-------------- 宽高 START ------------*/
+.w-100 {
+  width: 100vw; }
+
+.w-33 {
+  width: 33.33vw; }
+
+.w-25 {
+  width: 25vw; }
+
+.w-50 {
+  width: 50vw; }
+
+.w-67 {
+  width: 67.77vw; }
+
+.h-100 {
+  height: 100vh; }
+
+/*-------------- 全局样式 START ------------*/
+.page-container {
+  background: #fff;
+  height: 100%; }
+
+.disp-in-bl {
+  display: inline-block; }
+
+.mod-course-name {
+  width: 100%;
+  height: 40px;
+  color: #000;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  overflow: hidden; }
+
+/*-------------- 全局样式 END ------------*/
