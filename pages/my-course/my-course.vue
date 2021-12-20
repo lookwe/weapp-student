@@ -1,7 +1,7 @@
 <template>
-  <view class="mod-user u-page">
+  <view class="mod-my-ourse u-page">
     <view class="u-box">
-      <text class="u-box__title">个人信息</text>
+      <text class="u-box__title">全科学习</text>
       <!-- 课程介绍 -->
       <view class="course-base"> </view>
     </view>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'user',
+  name: 'myCourse',
   data() {
     return {}
   },
@@ -20,6 +20,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mod-user {
+.mod-my-course {
 }
 </style>

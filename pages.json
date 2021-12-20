@@ -1,5 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "91优途",
+				"enablePullDownRefresh": false
+			}
+		},
 		{
 			"path": "pages/home/home",
 			"style": {
@@ -7,13 +14,7 @@
 				"enablePullDownRefresh": false
 			}
 		},
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "91优途",
-				"enablePullDownRefresh": false
-			}
-		},
+		
 		{
 			"path": "pages/user/user",
 			"style": {
@@ -25,14 +26,50 @@
 			"path": "pages/course-details/course-details",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/my-course/my-course",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "sx-uni-template",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
-	}
+	},
+    "tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#007aff",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [{
+            "pagePath":  "pages/home/home",
+            "iconPath": "static/image/Group1.png",
+            "selectedIconPath": "static/image/Group_select.png",
+            "text": "首页"
+        }, {
+            "pagePath": "pages/my-course/my-course",
+            "iconPath": "static/image/mycuouse.png",
+            "selectedIconPath": "static/image/mycuouse_select.png",
+            "text": "学习"
+        }, {
+            "pagePath": "pages/user/user",
+            "iconPath": "static/image/user.png",
+            "selectedIconPath": "static/image/user_select.png",
+            "text": "我的"
+        }]
+    }
 }
