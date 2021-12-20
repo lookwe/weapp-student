@@ -1,4 +1,6 @@
-const { http } = uni.$u
+const {
+    http
+} = uni.$u
 import apis from './api/public.js'
 
 
@@ -9,27 +11,35 @@ import apis from './api/public.js'
  * @LastEditTime: 2021-11-30 09:59:28
  */
 class publicModel {
-   /**
-       * 文件解密
-       * @author huangzhongfei
-       * @date 2021-11-1
-       * @param {Array[]} objectKeys 文件名称 字符串数组
-       * @returns {any}
-       */
-      static getDownloadSignedUrl({ objectKeys }) {
-          return http.post(apis.getDownloadSignedUrl, { objectKeys })
-      }
-  
-  
-      /**
-       * 获取文件上传API接口
-       * @author huangzhongfei
-       * @date 2021-11-1
-       * @param {Array[]} objectKeys 文件名称 字符串数组
-       * @returns {any}
-       */
-      static getUploadSignedUrl({ objectKeys }) {
-          return http.post(apis.getUploadSignedUrl, { objectKeys })
-      }
+    /**
+     * 文件解密
+     * @author huangzhongfei
+     * @date 2021-11-1
+     * @param {Array[]} objectKeys 文件名称 字符串数组
+     * @returns {any}
+     */
+    static getDownloadSignedUrl({
+        objectKeys
+    }) {
+        return http.post(apis.getDownloadSignedUrl, {
+            objectKeys
+        })
+    }
+
+
+    /**
+     * 获取文件上传API接口
+     * @author huangzhongfei
+     * @date 2021-11-1
+     * @param {Array[]} objectKeys 文件名称 字符串数组
+     * @returns {any}
+     */
+    static getUploadSignedUrl({
+        objectKeys
+    }) {
+        return http.post(apis.getUploadSignedUrl, {
+            objectKeys
+        })
+    }
 }
 export default publicModel

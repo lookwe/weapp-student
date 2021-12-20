@@ -13,7 +13,11 @@ export default {
     //console.log('App Hide，app不再展现在前台')
   },
   onThemeChange: function () {
-	  console.log('监听系统主题状态变化。');
+    console.log('监听系统主题状态变化。')
+  },
+  // 比如通过分享卡片、小程序码）且发现页面不存在，才会触发
+  onPageNotFound: function () {
+    console.log('404')
   }
 }
 </script>

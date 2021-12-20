@@ -1,4 +1,6 @@
-const { http } = uni.$u
+const {
+    http
+} = uni.$u
 import apis from './api/user'
 
 
@@ -8,27 +10,27 @@ import apis from './api/user'
  * @LastEditTime: 2021-11-30 09:59:28
  */
 class UserModel {
-  /**
-   * 用户登录
-   * @author Joshua
-   * @date 2021-11-1
-   * @param {any} password 账号
-   * @param {any} {username} 密码
-   * @returns {any}
-   */
-  static login(params, config) {
-      return http.post(apis.login, params, config)
-  }
+    /**
+     * 用户登录
+     * @author Joshua
+     * @date 2021-11-1
+     * @param {any} password 账号
+     * @param {any} {username} 密码
+     * @returns {any}
+     */
+    static login(params, config) {
+        return http.post(apis.login, params, config)
+    }
 
 
-  /**
-   * 退出登录
-   * @author Joshua
-   * @date 2021-11-1
-   * @returns {any}
-   */
-  static logout(params, config) {
-    return http.post(apis.logout, params, config)
-  }
+    /**
+     * 退出登录
+     * @author Joshua
+     * @date 2021-11-1
+     * @returns {any}
+     */
+    static logout(params, config) {
+        return http.post(apis.logout, params, config)
+    }
 }
 export default UserModel

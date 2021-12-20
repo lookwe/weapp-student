@@ -15,12 +15,6 @@
 			}
 		},
 		{
-			"path": "pages/example/components",
-			"style": {
-				"navigationBarTitleText": "sx-uni-template"
-			}
-		},
-		{
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "",
