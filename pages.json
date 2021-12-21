@@ -43,6 +43,29 @@
             }
             
         }
+        ,{
+            "path" : "pages/registration/registration",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/inline-single/inline-single",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

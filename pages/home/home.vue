@@ -85,10 +85,11 @@
           class="course-item"
           v-for="(item, index) in courseList"
           :key="index"
-          @click="toCourseDetails"
+          @click="toCourseDetails(item)"
         >
           <image
             mode="scaleToFill"
+            :lazy-load="true"
             :src="item.coverUrl"
             @error="imageError"
           ></image>
@@ -158,6 +159,7 @@ export default {
 
     // 获取精选课程
     getListData() {
+      console.log(this.currIndex, this.totalPages)
       if (this.currIndex > this.totalPages) {
         return
       }
@@ -175,6 +177,7 @@ export default {
         .then((data = {}) => {
           this.currIndex += 1
           this.totalPages = data.totalPages
+          console.log(this.currIndex, this.totalPages)
 
           const { content = [] } = data
           this.courseList = this.courseList.concat(content)
@@ -192,10 +195,10 @@ export default {
     },
 
     // 跳转课程详情
-    toCourseDetails() {
+    toCourseDetails(item) {
       const user = {
-        name: '张三',
-        id: 123
+        schoolCourseId: item.id,
+        courseType: item.courseType
       }
       uni.navigateTo({
         url: `../course-details/course-details?data=${encodeURIComponent(
