@@ -4,7 +4,14 @@
     <view></view>
 
     <view class="code-img">
-      <image style="width: 200px; height: 200px" :src="imgUrl" mode="" />
+      <u-image :width="250" :src="imgUrl" radius="15">
+        <u-loading-icon
+          slot="loading"
+          mode="semicircle"
+          color="#3c9cff"
+          size="36"
+        ></u-loading-icon>
+      </u-image>
       <view class="fz-18 m-b-30">添加老师微信好友</view>
       <view class="fz-15 c-content">高效沟通答疑</view>
     </view>
@@ -39,12 +46,18 @@ export default {
       imgUrl: ''
     }
   },
-  onLoad({ url = '' }) {
-    this.imgUrl = url
+  onLoad(data = {}) {
+    this.imgUrl = decodeURIComponent(data.url)
   },
   methods: {}
 }
 </script>
+
+<style scoped>
+.mod-registration ::v-deep .u-image {
+  margin: 0 auto;
+}
+</style>
 
 <style lang="scss" scoped>
 .mod-registration {

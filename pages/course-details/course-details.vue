@@ -1,130 +1,148 @@
 <template>
-    <view class="mod-course-details">
-        <!-- 自定义导航 -->
-        <!-- <view class="mod-dao">
+  <view class="mod-course-details">
+    <!-- 自定义导航 -->
+    <!-- <view class="mod-dao">
             123
         </view> -->
-        <view class="mod-top-imgage">
-            <image :src="courseInfo.coverUrl" alt="">
-                
-        </view>
-        
-        <view class="u-page">
-            <!-- 课程介绍 -->
-            <view class="u-box course-base">
-                <text class="u-box__title">
-                    {{ courseInfo.courseName}}
-                </text>
-                <view class="course-txt-describe">
-                    课程简介：一句话介绍
-                </view>
-                <u-scroll-list :indicator="!isSingleType">
-                    <view
-                        class="scroll-list"
-                        style="flex-direction: row;"
-                    >
-                        <view class="course-teacher"
-                            :style="{width: isSingleType ? '82vw' : '72vw'}"
-                            v-for="(item, index) in courseInfo.generalPracticeCourseVOS"
-                            :key="index">
-                                <view class="course-teacher__img">
-                                    <u--image
-                                        shape="circle"
-                                        :src="item.lecturerPhoto || item.lecturerVO.lecturerPhoto"
-                                        width="90rpx"
-                                        height="90rpx"
-                                    ></u--image>
-                                </view>
-                                <view class="course-teacher__info">
-                                    <view class="c-main fz-15">
-                                        {{ item.lecturerName || item.lecturerVO.lecturerName }}
-                                    </view>
-                                    <view class="course-teacher-resume fz-13 mod-course-name">
-                                        {{ item.lecturerIntroduction || item.lecturerVO.lecturerIntroduction }}
-                                    </view>
-                                </view>
-                            </view>
-                    </view>
-                </u-scroll-list>
-            </view>
-            
-            <!-- 富文本介绍 -->
-            <view class="m-b-30 u-box">
-                <view class="u-box__title">项目介绍</view>
-                 <view class="ke-introduce">
-                    <view v-if="courseInfo.courseInfoDTO.introduce" v-html="courseInfo.courseInfoDTO.introduce"></view>
-                    <u-empty
-                        v-else
-                        mode="data"
-                        icon="http://cdn.uviewui.com/uview/empty/data.png"
-                    >
-                    </u-empty>
-                </view>
-            </view>
+    <view class="mod-top-imgage">
+      <!-- <image :src="courseInfo.coverUrl" alt="" /> -->
 
-            <view class="m-b-30 u-box">
-                <view class="u-box__title">就业前景</view>
-                 <view class="ke-introduce">
-                    <view v-if="courseInfo.courseInfoDTO.introduce1" v-html="courseInfo.courseInfoDTO.introduce1"></view>
-                    <u-empty
-                        v-else
-                        mode="data"
-                        icon="http://cdn.uviewui.com/uview/empty/data.png"
-                    >
-                    </u-empty>
-                </view>
-            </view>
-
-            <view class="m-b-30 u-box">
-                <view class="u-box__title">常见问题</view>
-                 <view class="ke-introduce">
-                    <view v-if="courseInfo.courseInfoDTO.introduce2" v-html="courseInfo.courseInfoDTO.introduce2"></view>
-                    <u-empty
-                        v-else
-                        mode="data"
-                        icon="http://cdn.uviewui.com/uview/empty/data.png"
-                    >
-                    </u-empty>
-                </view>
-            </view>
-
-             <view class="m-b-30 u-box">
-                <view class="u-box__title">资料获取</view>
-                 <view class="ke-introduce">
-                    <view v-if="courseInfo.courseInfoDTO.introduce3" v-html="courseInfo.courseInfoDTO.introduce3"></view>
-                    <u-empty
-                        v-else
-                        mode="data"
-                        icon="http://cdn.uviewui.com/uview/empty/data.png"
-                    >
-                    </u-empty>
-                </view>
-            </view>
-
-           <u-back-top
-             :customStyle="{background: 'linear-gradient(to right, #00c6ff, #0072ff)',}"
-		    :iconStyle="{color: '#ffffff'}"
-            :scroll-top="scrollTop"></u-back-top>
-
-            <!--  -->
-            <view class="mod-but-price">
-                <view class="price">
-                    <view class="fz-12 c-describe">课程售价</view>
-                    <view>
-                        <number-roll :value="endVal"></number-roll>
-                    </view>
-                </view>
-                
-                <view class="try-look" @click="onTryLookClick">
-                    课程试听
-                </view>
-                <view class="sign-up" @click="onSignUpClick">
-                    报名咨询
-                </view>
-            </view>
-            
-        </view>
+      <u-image width="100vw" height="375px" :src="courseInfo.coverUrl">
+        <u-loading-icon
+          slot="loading"
+          mode="semicircle"
+          color="#3c9cff"
+          size="36"
+        ></u-loading-icon>
+      </u-image>
     </view>
+
+    <view class="u-page">
+      <!-- 课程介绍 -->
+      <view class="u-box course-base">
+        <text class="u-box__title">
+          {{ courseInfo.courseName }}
+        </text>
+        <view class="course-txt-describe"> 课程简介：一句话介绍 </view>
+        <u-scroll-list :indicator="!isSingleType">
+          <view class="scroll-list" style="flex-direction: row">
+            <view
+              class="course-teacher"
+              :style="{ width: isSingleType ? '82vw' : '72vw' }"
+              v-for="(item, index) in courseInfo.generalPracticeCourseVOS"
+              :key="index"
+            >
+              <view class="course-teacher__img">
+                <u--image
+                  shape="circle"
+                  :src="item.lecturerPhoto || item.lecturerVO.lecturerPhoto"
+                  width="90rpx"
+                  height="90rpx"
+                ></u--image>
+              </view>
+              <view class="course-teacher__info">
+                <view class="c-main fz-15">
+                  {{ item.lecturerName || item.lecturerVO.lecturerName }}
+                </view>
+                <view class="course-teacher-resume fz-13 mod-course-name">
+                  {{
+                    item.lecturerIntroduction ||
+                    item.lecturerVO.lecturerIntroduction
+                  }}
+                </view>
+              </view>
+            </view>
+          </view>
+        </u-scroll-list>
+      </view>
+
+      <!-- 富文本介绍 -->
+      <view class="m-b-30 u-box">
+        <view class="u-box__title">项目介绍</view>
+        <view class="ke-introduce">
+          <view
+            v-if="courseInfo.courseInfoDTO.introduce"
+            v-html="courseInfo.courseInfoDTO.introduce"
+          ></view>
+          <u-empty
+            v-else
+            mode="data"
+            icon="http://cdn.uviewui.com/uview/empty/data.png"
+          >
+          </u-empty>
+        </view>
+      </view>
+
+      <view class="m-b-30 u-box">
+        <view class="u-box__title">就业前景</view>
+        <view class="ke-introduce">
+          <view
+            v-if="courseInfo.courseInfoDTO.introduce1"
+            v-html="courseInfo.courseInfoDTO.introduce1"
+          ></view>
+          <u-empty
+            v-else
+            mode="data"
+            icon="http://cdn.uviewui.com/uview/empty/data.png"
+          >
+          </u-empty>
+        </view>
+      </view>
+
+      <view class="m-b-30 u-box">
+        <view class="u-box__title">常见问题</view>
+        <view class="ke-introduce">
+          <view
+            v-if="courseInfo.courseInfoDTO.introduce2"
+            v-html="courseInfo.courseInfoDTO.introduce2"
+          ></view>
+          <u-empty
+            v-else
+            mode="data"
+            icon="http://cdn.uviewui.com/uview/empty/data.png"
+          >
+          </u-empty>
+        </view>
+      </view>
+
+      <view class="m-b-30 u-box">
+        <view class="u-box__title">资料获取</view>
+        <view class="ke-introduce">
+          <view
+            v-if="courseInfo.courseInfoDTO.introduce3"
+            v-html="courseInfo.courseInfoDTO.introduce3"
+          ></view>
+          <u-empty
+            v-else
+            mode="data"
+            icon="http://cdn.uviewui.com/uview/empty/data.png"
+          >
+          </u-empty>
+        </view>
+      </view>
+
+      <u-back-top
+        :customStyle="{
+          background: 'linear-gradient(to right, #00c6ff, #0072ff)'
+        }"
+        :iconStyle="{ color: '#ffffff' }"
+        :scroll-top="scrollTop"
+      ></u-back-top>
+
+      <!--  -->
+      <view class="mod-but-price">
+        <view class="price">
+          <view class="fz-12 c-describe">课程售价</view>
+          <view>
+            <number-roll :value="endVal"></number-roll>
+          </view>
+        </view>
+
+        <view class="try-look" @click="onTryLookClick"> 课程试听 </view>
+        <view class="sign-up" @click="onSignUpClick"> 报名咨询 </view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -171,11 +189,12 @@ export default {
 
     // 报名咨询
     onSignUpClick() {
+      const params = {
+        url: encodeURIComponent(this.courseInfo.consultingQrCodeUrl)
+      }
       uni.$u.route({
         url: 'pages/registration/registration',
-        params: {
-          url: this.courseInfo.consultingQrCodeUrl
-        }
+        params
       })
     },
 
