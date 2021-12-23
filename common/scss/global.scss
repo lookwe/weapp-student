@@ -7,6 +7,10 @@
     }
 }
 
+ul {
+    list-style: none
+}
+
 // 粗体
 .fw-500 {
     font-weight: 500;
@@ -37,6 +41,13 @@
 
 /*-------------- 字体 END ------------*/
 /*-------------- 颜色 END ------------*/
+.white {
+    color: $uni-text-color-inverse;
+}
+
+.bg-white {
+    color: $uni-text-color-inverse;
+}
 
 // 黑子重要字体 title 字体
 .c-main {
@@ -48,7 +59,12 @@
     color: $u-light-color;
 }
 
-// 中度浅灰 概括字体
+// 中度浅灰 概括简单描述
+.c-explain {
+    color: $uni-text-color-placeholder;
+}
+
+// 偏上等灰
 .c-content {
     color: $u-content-color;
 }
@@ -97,7 +113,6 @@
 .je {
     justify-content: flex-end;
 }
-
 
 
 

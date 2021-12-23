@@ -33,12 +33,12 @@
               :key="index"
             >
               <view class="course-teacher__img">
-                <u--image
+                <u-image
                   shape="circle"
                   :src="item.lecturerPhoto || item.lecturerVO.lecturerPhoto"
                   width="90rpx"
                   height="90rpx"
-                ></u--image>
+                ></u-image>
               </view>
               <view class="course-teacher__info">
                 <view class="c-main fz-15">
@@ -130,23 +130,14 @@
       ></u-back-top>
 
       <!--  -->
-      <view class="mod-but-price">
-        <view class="price">
-          <view class="fz-12 c-describe">课程售价</view>
-          <view>
-            <number-roll :value="endVal"></number-roll>
-          </view>
-        </view>
-
-        <view class="try-look" @click="onTryLookClick"> 课程试听 </view>
-        <view class="sign-up" @click="onSignUpClick"> 报名咨询 </view>
-      </view>
+      <com-but-price ref="comButPrice"></com-but-price>
     </view>
   </view>
 </template>
 
 <script>
 import CoursesModel from '@/models/coursesModel'
+import store from '@/store/index'
 export default {
   name: 'courseDetails',
   data() {
@@ -177,27 +168,6 @@ export default {
     this.initData(params)
   },
   methods: {
-    //   点击课程时刻
-    onTryLookClick() {
-      uni.$u.route({
-        url: 'pages/inline-single/inline-single',
-        params: {
-          url: this.courseInfo.consultingQrCodeUrl
-        }
-      })
-    },
-
-    // 报名咨询
-    onSignUpClick() {
-      const params = {
-        url: encodeURIComponent(this.courseInfo.consultingQrCodeUrl)
-      }
-      uni.$u.route({
-        url: 'pages/registration/registration',
-        params
-      })
-    },
-
     // 获取单科/全科 数据信息
     getCourseInfo(params, callback) {
       if (this.isSingleType) {
@@ -226,6 +196,9 @@ export default {
       this.getCourseInfo(params, (data) => {
         this.courseInfo = data
 
+        // 保存课程详情
+        store.dispatch('school/setCourseInfo', data)
+
         // 等学会了 自定义导航
         this.endVal = 99000
 
@@ -239,12 +212,7 @@ export default {
 <style lang="scss" scoped>
 .mod-course-details {
   position: relative;
-  .mod-dao {
-    display: inline-block;
-    height: var(--status-bar-height);
-    width: 100%;
-    background: red;
-  }
+
   .mod-top-imgage {
     image {
       width: 100%;
@@ -286,53 +254,6 @@ export default {
     width: 100%;
     background: #f5f7f9;
     margin-bottom: 30px;
-  }
-
-  .mod-but-price {
-    position: fixed;
-    bottom: 20px;
-    left: 3.6vw;
-    width: 92.8vw;
-    height: 60px;
-    border-radius: 15px;
-    display: flex;
-    overflow: hidden;
-    box-shadow: 1px 1px 15px #999;
-
-    .price {
-      width: 45%;
-      background: $uni-bg-color;
-      padding: 5px 0 5px 20px;
-      .c-describe {
-        padding-bottom: 8px;
-      }
-    }
-
-    .try-look {
-      width: 27.5%;
-      background: $u-primary-light;
-      color: $u-primary;
-    }
-
-    .sign-up {
-      width: 27.5%;
-      background: $u-primary;
-      background: -webkit-linear-gradient(
-        to right,
-        $u-primary-disabled,
-        $u-primary
-      );
-      background: linear-gradient(to right, $u-primary-disabled, $u-primary);
-
-      color: $uni-bg-color;
-    }
-
-    .sign-up,
-    .try-look {
-      line-height: 60px;
-      text-align: center;
-      font-size: 18px;
-    }
   }
 
   .scroll-list {

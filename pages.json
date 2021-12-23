@@ -3,8 +3,13 @@
         {
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "91优途",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
 			}
 		},
 		{
@@ -19,7 +24,8 @@
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+                "titleNView": false
 			}
 		},
 		{
@@ -38,7 +44,7 @@
             "path" : "pages/my-course/my-course",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "学习",
                 "enablePullDownRefresh": false
             }
             
@@ -68,6 +74,15 @@
                         "type": "transparent"
                     }
                 }
+            }
+            
+        }
+        ,{
+            "path" : "pages/course-list/course-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
             }
             
         }

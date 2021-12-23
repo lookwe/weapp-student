@@ -4,7 +4,7 @@
     <view></view>
 
     <view class="code-img">
-      <u-image :width="250" :src="imgUrl" radius="15">
+      <u-image :width="250" :src="getCourse.consultingQrCodeUrl" radius="15">
         <u-loading-icon
           slot="loading"
           mode="semicircle"
@@ -39,15 +39,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'registration',
-  data() {
-    return {
-      imgUrl: ''
-    }
-  },
-  onLoad(data = {}) {
-    this.imgUrl = decodeURIComponent(data.url)
+  computed: {
+    ...mapGetters(['getCourse'])
   },
   methods: {}
 }

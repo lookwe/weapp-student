@@ -2,14 +2,14 @@
 
 
 /***
-* 数字格式化金钱格式或者逗号格式  例如: 1234 => $1,234.00
-* @param number 需要转换的数，
-* @param places 保留几位小数
-* @param symbol 金钱符号$
-* @param thousand 千分位显示什么符号默认'，' 1,000
-* @param decimal 小数点显示什么符号默认'.'
-* @returns {string} $1,234.00
-*/
+ * 数字格式化金钱格式或者逗号格式  例如: 1234 => $1,234.00
+ * @param number 需要转换的数，
+ * @param places 保留几位小数
+ * @param symbol 金钱符号$
+ * @param thousand 千分位显示什么符号默认'，' 1,000
+ * @param decimal 小数点显示什么符号默认'.'
+ * @returns {string} $1,234.00
+ */
 export function formatMoney(number, places, symbol, thousand, decimal) {
     number = number || 0;
     places = !isNaN(places = Math.abs(places)) ? places : 2;
@@ -99,8 +99,36 @@ export function parseTime(time, cFormat) {
     }
     const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
         const value = formatObj[key]
-        if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
+        if (key === 'a') {
+            return ['日', '一', '二', '三', '四', '五', '六'][value]
+        }
         return value.toString().padStart(2, '0')
     })
     return time_str
+}
+
+/**
+ * utc时间格式转本地 date() 类型
+ * @param {string} url
+ * @returns {Object}
+ */
+export function UTCDateToLocalDate(dateStr) {
+    var date1 = new Date();
+    var offsetMinute = date1.getTimezoneOffset();
+    var offsetHours = offsetMinute / 60;
+    var date2 = new Date(dateStr);
+    date2.setHours(date2.getHours() - offsetHours);
+    return date2;
+}
+
+/**
+ * 计算2个日期相差天数
+ * @param {string} url
+ * @returns {Object}
+ */
+export function getDaysBetween(dateString1, dateString2) {
+    var startDate = Date.parse(dateString1);
+    var endDate = Date.parse(dateString2);
+    var days = (endDate - startDate) / (1 * 24 * 60 * 60 * 1000);
+    return days;
 }

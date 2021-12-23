@@ -28,8 +28,13 @@ export default {
     }
   },
   //异步 数据改动时就执行
+  computer: {
+    getValue() {
+      return this.value
+    }
+  },
   watch: {
-    value() {
+    getValue() {
       this.numberGrow()
     }
   },

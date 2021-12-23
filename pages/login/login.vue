@@ -1,27 +1,35 @@
 <template>
-  <view class="u-page dom-login" :style="{ height: view.Height + 'px' }">
-    <view class="u-demo-block"></view>
+  <view class="u-page dom-login">
+    <view></view>
+    <view class="u-demo-block logo-box">
+      <image
+        class="logo"
+        src="https://obs-sxmaps.obs.cn-south-1.myhuaweicloud.com/1639564017091%E5%8A%A0%E5%88%86logo.png?AccessKeyId=EFEFKMKB34MST8GOISMX&Expires=1640312802&Signature=1JIaFjZnqM4Ry%2FP4NNmmLTjeRT8%3D"
+        mode=""
+      />
+      <text class="app-name">加分课堂</text>
+    </view>
 
-    <view class="u-demo-block text-center">
+    <view class="u-demo-block text-center fz-18">
       <text>欢迎您登录网校系统</text>
     </view>
 
     <view class="u-demo-block">
-      <text class="u-demo-block__title">用户名/学号</text>
+      <text class="u-demo-block__title white">用户名/学号</text>
       <view class="u-demo-block__content">
-        <u--input
+        <u-input
           v-model="formInline.username"
           placeholder="请输入账号"
           border="surround"
           clearable
-        ></u--input>
+        ></u-input>
       </view>
     </view>
 
     <view class="u-demo-block">
-      <text class="u-demo-block__title">密码</text>
+      <text class="u-demo-block__title white">密码</text>
       <view class="u-demo-block__content">
-        <u--input
+        <u-input
           v-model="formInline.password"
           :password="pwdIconName === 'eye-off'"
           placeholder="请输入密码"
@@ -37,7 +45,7 @@
               "
             ></u-icon>
           </template>
-        </u--input>
+        </u-input>
       </view>
     </view>
 
@@ -46,6 +54,7 @@
         :disabled="formInline.username === '' || formInline.password === ''"
         type="primary"
         text="登 录"
+        class="white"
         @click="handelLogin"
       ></u-button>
     </view>
@@ -61,9 +70,6 @@ import publicApi from '@/models/publicModel'
 export default {
   data() {
     return {
-      view: {
-        Height: 0
-      },
       pwdIconName: 'eye-off', // eye-fill
       formInline: {
         username: '',
@@ -86,7 +92,7 @@ export default {
           if (userInfo) {
             store.dispatch('user/login', userInfo)
             this.onSchoolInfo()
-            console.log('我来了');
+            console.log('我来了')
             uni.switchTab({
               url: '/pages/home/home'
             })
@@ -130,30 +136,48 @@ export default {
     }
   },
   created() {
-    console.log('created')
     console.log(uni.getSystemInfoSync())
-    console.log('------- crecte -------')
-    const { windowHeight, windowTop, statusBarHeight } = uni.getSystemInfoSync()
-    console.log('windowHeight', windowHeight)
-    console.log('windowTop', windowTop)
-    console.log('statusBarHeight', statusBarHeight)
-
-    // 让页面高度和屏幕高度一样，好放背景图
-    this.view.Height = windowHeight - (windowTop || statusBarHeight) - 16
-    console.log('当前型号全屏高度：', this.view.Height, 'px')
   }
 }
 </script>
 
+
+<style lang="scss">
+.dom-login ::v-deep .u-input {
+  background: $uni-text-color-inverse;
+}
+input:-internal-autofill-selected {
+  background: $uni-text-color-inverse;
+}
+</style>
+
 <style lang="scss" scoped>
 .dom-login {
-  padding: 30px;
-  background-color: #f4f6fa;
+  padding: 0 30px;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(
+    180.25deg,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  background-image: url(https://s4.ax1x.com/2021/12/23/T89EfU.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 
-  //
-  // background-image: url(https://oss.tool.lu/cache/202112/03/1430409i2i5p60ikhro9n8.png.optim.png); // 在线工具: https://tool.lu/tinyimage/
-  // background-repeat: no-repeat;
-  // background-size: cover;
-  // background-position: center -120px;
+  .logo-box {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo {
+      width: 60px;
+      height: 60px;
+    }
+    .app-name {
+      font-size: 33px;
+    }
+  }
 }
 </style>
