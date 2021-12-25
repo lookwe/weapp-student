@@ -4,11 +4,11 @@
       <view class="mod-school__info">
         <image
           mode="scaleToFill"
-          :src="getSchool.logoUrl"
+          :src="getSchoolInfo.logoUrl"
           @error="imageError"
         ></image>
 
-        <text class="fz-24 fw-600">{{ getSchool.schoolName }}</text>
+        <text class="fz-24 fw-600">{{ getSchoolInfo.schoolName }}</text>
         <!-- 骨架 -->
         <!-- <u-skeleton :loading="true" avatar rows="0"></u-skeleton> -->
       </view>
@@ -128,7 +128,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getSchool'])
+    ...mapGetters(['getSchoolInfo'])
   },
 
   // 下拉刷新
