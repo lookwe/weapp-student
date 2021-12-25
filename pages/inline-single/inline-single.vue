@@ -5,7 +5,7 @@
       <view class="u-box mod-list">
         <view
           class="mod-list__item"
-          v-for="(item, index) in getCourse.generalPracticeCourseVOS"
+          v-for="(item, index) in getCourseInfo.generalPracticeCourseVOS"
           :key="index"
           @click="toDirectoryClick(item)"
         >
@@ -60,7 +60,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'inlineSingle',
   computed: {
-    ...mapGetters(['getCourse'])
+    ...mapGetters(['getCourseInfo'])
   },
   methods: {
     //   点击课程时刻

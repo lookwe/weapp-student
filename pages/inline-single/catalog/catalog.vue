@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCourse']),
+    ...mapGetters(['getCourseInfo']),
     // icon图片名称
     getCurrentIconName() {
       const { api } = this.actionMap || {}
@@ -61,7 +61,7 @@ export default {
 
     // 通过vuex 获取版型号
     const { classTypeNo } =
-      this.getCourse.classTypeVOS[this.getCourse.currentClassType] || {}
+      this.getCourseInfo.classTypeVOS[this.getCourseInfo.currentClassType] || {}
 
     // 获取菜单资源
     this.fetchClassTypeNavlist({ classTypeNo })

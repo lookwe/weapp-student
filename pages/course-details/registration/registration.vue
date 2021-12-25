@@ -4,7 +4,11 @@
     <view></view>
 
     <view class="code-img">
-      <u-image :width="250" :src="getCourse.consultingQrCodeUrl" radius="15">
+      <u-image
+        :width="250"
+        :src="getCourseInfo.consultingQrCodeUrl"
+        radius="15"
+      >
         <u-loading-icon
           slot="loading"
           mode="semicircle"
@@ -43,7 +47,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'registration',
   computed: {
-    ...mapGetters(['getCourse'])
+    ...mapGetters(['getCourseInfo'])
   },
   methods: {}
 }

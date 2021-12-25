@@ -132,3 +132,9 @@ export function getDaysBetween(dateString1, dateString2) {
     var days = (endDate - startDate) / (1 * 24 * 60 * 60 * 1000);
     return days;
 }
+
+/** 首字母大写 */
+export function captureName(name) {
+    name = name.substring(0, 1).toUpperCase() + name.substring(1);
+    return name;
+}
