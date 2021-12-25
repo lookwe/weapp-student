@@ -3,7 +3,7 @@
     <view class="price">
       <view class="fz-12 c-describe">课程售价</view>
       <view>
-        <number-roll :value="money"></number-roll>
+        <number-roll :value="value"></number-roll>
       </view>
     </view>
 
@@ -23,18 +23,10 @@ export default {
     isTry: {
       type: Boolean,
       default: true
-    }
-  },
-  data() {
-    return {
-      money: 20001
-    }
-  },
-
-  methods: {
-    setMoney(money) {
-      this.money = money
     },
+    value: 0
+  },
+  methods: {
     //   点击课程时刻
     onTryLookClick() {
       uni.$u.route({
@@ -45,7 +37,7 @@ export default {
     // 报名咨询
     onSignUpClick() {
       uni.$u.route({
-        url: 'pages/registration/registration'
+        url: 'pages/course-details/registration/registration'
       })
     }
   }

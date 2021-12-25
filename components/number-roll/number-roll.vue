@@ -27,14 +27,8 @@ export default {
       default: 0
     }
   },
-  //异步 数据改动时就执行
-  computer: {
-    getValue() {
-      return this.value
-    }
-  },
   watch: {
-    getValue() {
+    value() {
       this.numberGrow()
     }
   },

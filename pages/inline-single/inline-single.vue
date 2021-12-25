@@ -7,6 +7,7 @@
           class="mod-list__item"
           v-for="(item, index) in getCourse.generalPracticeCourseVOS"
           :key="index"
+          @click="toDirectoryClick(item)"
         >
           <view class="course-img">
             <u-image width="95px" height="95px" :src="item.coverUrl"> </u-image>
@@ -60,6 +61,17 @@ export default {
   name: 'inlineSingle',
   computed: {
     ...mapGetters(['getCourse'])
+  },
+  methods: {
+    //   点击课程时刻
+    toDirectoryClick({ courseNo }) {
+      uni.$u.route({
+        url: 'pages/inline-single/catalog/catalog',
+        params: {
+          courseNo
+        }
+      })
+    }
   }
 }
 </script>

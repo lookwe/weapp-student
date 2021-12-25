@@ -22,6 +22,7 @@ module.exports = (vm) => {
 
         if (data.code !== 200) {
             // 不是200 则标识失败
+            console.log(123411111);
             uni.$u.toast(data.text)
 
             // ['强制退出', 'token过期', '无效token']

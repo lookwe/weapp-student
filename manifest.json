@@ -134,10 +134,10 @@
         },
         "optimization" : {
             "treeShaking" : {
-                "enable" : false
+                "enable" : true
             }
         },
-        "title" : "uView UI",
+        "title" : "加分课堂",
         "sdkConfigs" : {
             "maps" : {
                 "qqmap" : {

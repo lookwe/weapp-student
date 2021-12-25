@@ -16,7 +16,8 @@ module.exports = (vm) => {
             config.header = {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': contentType,
-                'token': vm.$store.state.user.token || ''
+                'token': vm.$store.state.user.token || '',
+                'authority': 'edu.juhezaixian.cn'
             }
             return config
         }, (config) =>

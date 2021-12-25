@@ -91,11 +91,7 @@ export default {
         .then((userInfo) => {
           if (userInfo) {
             store.dispatch('user/login', userInfo)
-            this.onSchoolInfo()
-            console.log('我来了')
-            uni.switchTab({
-              url: '/pages/home/home'
-            })
+            this.getSchoolInfo(userInfo)
           }
         })
         .finally(() => {
@@ -104,8 +100,15 @@ export default {
     },
 
     // 获取网校信息 & 解析图片 & 保存缓存
-    onSchoolInfo() {
+    getSchoolInfo(userInfo) {
       homeApi.getSchoolInfo().then((schoolInfo) => {
+        if (!schoolInfo) {
+          return
+        }
+
+        uni.switchTab({
+          url: '/pages/home/home'
+        })
         // 根据文件名解密完整路径
         const { logo = '', appQRCode = '', qrCode = '' } = schoolInfo
 
@@ -119,6 +122,9 @@ export default {
         if (qrCode) {
           objectKeys.push(qrCode)
         }
+        if (userInfo.icon) {
+          objectKeys.push(userInfo.icon)
+        }
 
         // 解析圖片
         publicApi
@@ -131,6 +137,11 @@ export default {
             schoolInfo.qrCodeUrl = data[qrCode]
 
             store.dispatch('school/setSchoolInfo', schoolInfo)
+
+            if (data[userInfo.icon]) {
+              userInfo.iconUrl = data[userInfo.icon]
+              store.dispatch('user/login', userInfo)
+            }
           })
       })
     }

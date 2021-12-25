@@ -5,8 +5,6 @@
             123
         </view> -->
     <view class="mod-top-imgage">
-      <!-- <image :src="courseInfo.coverUrl" alt="" /> -->
-
       <u-image width="100vw" height="375px" :src="courseInfo.coverUrl">
         <u-loading-icon
           slot="loading"
@@ -15,6 +13,27 @@
           size="36"
         ></u-loading-icon>
       </u-image>
+    </view>
+
+    <view class="mod-navigation">
+      <view class="nav-type-list bg-white">
+        <view
+          v-for="(item, index) in courseInfo.classTypeVOS"
+          :key="item.classTypeNo"
+          :class="[
+            'nav-type-item',
+            courseInfo.currentClassType === index ? 'active' : ''
+          ]"
+          @click="onClassTypeClick(index)"
+          >{{ item.classTypeName }}</view
+        >
+      </view>
+      <view class="rich-txt-box">
+        <view>项目介绍</view>
+        <view>就业前景</view>
+        <view>常见问题</view>
+        <view>资料获取</view>
+      </view>
     </view>
 
     <view class="u-page">
@@ -130,7 +149,15 @@
       ></u-back-top>
 
       <!--  -->
-      <com-but-price ref="comButPrice"></com-but-price>
+      <com-but-price
+        ref="comButPrice"
+        :value="
+          courseInfo.classTypeVOS.length > 0
+            ? courseInfo.classTypeVOS[courseInfo.currentClassType]
+                .appExhibitionFee
+            : 0
+        "
+      ></com-but-price>
     </view>
   </view>
 </template>
@@ -143,17 +170,19 @@ export default {
   data() {
     return {
       scrollTop: 0,
-
       endVal: 0,
 
       // 是否单科
       isSingleType: false,
 
-      currentClassType: 0, // 默认选中第一个班型
       courseInfo: {
         generalPracticeCourseVOS: [], // 讲师
+
+        courseInfoDTO: {},
+
         classTypeVOS: [], // 课程分类
-        courseInfoDTO: {}
+        currentClassType: 0, // 默认选中第一个班型
+        params: {}
       }
     }
   },
@@ -163,11 +192,54 @@ export default {
   onLoad(router) {
     let { data } = router
     const params = JSON.parse(decodeURIComponent(data))
+    this.params = params
     this.isSingleType = params.courseType == 0
 
     this.initData(params)
   },
   methods: {
+    // 切换版型 更新课程数据
+    onClassTypeClick(index) {
+      this.$u.throttle(() => {
+        this.courseInfo.currentClassType = index
+        this.heandelSingleComponeClasNav()
+      }, 500)
+    },
+
+    // 处理版型切换 数据更新
+    heandelSingleComponeClasNav() {
+      uni.showLoading({
+        title: '加载中...'
+      })
+      // 当前选中班型编号
+      const { classTypeNo } =
+        this.courseInfo.classTypeVOS[this.courseInfo.currentClassType] || {}
+
+      if (this.isSingleType) {
+        // [单科] --- todo -----
+      } else {
+        // [全科] 版型改变，对应讲师和课程也要改变
+        CoursesModel.getGeneralInfoV2({
+          classTypeNo,
+          ...this.params
+        })
+          .then((_data) => {
+            // 讲师 和 资料 的数组
+            this.$set(
+              this.courseInfo,
+              'generalPracticeCourseVOS',
+              _data.generalPracticeCourseVOS || []
+            )
+            store.dispatch('school/setCourseInfo', this.courseInfo)
+          })
+          .finally(() => {
+            setTimeout(() => {
+              uni.hideLoading()
+            }, 500)
+          })
+      }
+    },
+
     // 获取单科/全科 数据信息
     getCourseInfo(params, callback) {
       if (this.isSingleType) {
@@ -177,11 +249,11 @@ export default {
           callback(data)
         })
       } else {
-        // 全科
+        // 全科 获取版型，默认第一项
         CoursesModel.getGeneralInfo(params).then((data) => {
           const { classTypeNo } = data.classTypeVOS[0] || {}
 
-          // 默认第一个班型，根据班型查询
+          // 根据班型查询 查询课程详情
           CoursesModel.getGeneralInfoV2({
             classTypeNo,
             ...params
@@ -194,6 +266,7 @@ export default {
 
     initData(params) {
       this.getCourseInfo(params, (data) => {
+        data.currentClassType = 0
         this.courseInfo = data
 
         // 保存课程详情
@@ -209,14 +282,58 @@ export default {
 }
 </script>
 
+
+
 <style lang="scss" scoped>
 .mod-course-details {
   position: relative;
 
-  .mod-top-imgage {
-    image {
-      width: 100%;
-      height: 375px;
+  .mod-navigation {
+    background: $u-border-color;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 100;
+
+    /* #ifdef MP-WEIXIN */
+    top: 0;
+    /* #endif */
+
+    /* #ifdef H5 */
+    top: 80rpx;
+    /* #endif */
+
+    .nav-type-list {
+      width: 100vw;
+      height: 80rpx;
+      line-height: 80rpx;
+      overflow-x: auto;
+      white-space: nowrap;
+      text-align: center;
+
+      .nav-type-item {
+        display: inline-block;
+        margin: 0 15px;
+        color: $u-tips-color;
+        font-size: 18px;
+
+        &.active {
+          color: $u-primary;
+          transition: color 0.3s;
+        }
+      }
+    }
+
+    .rich-txt-box {
+      display: flex;
+      justify-content: space-around;
+
+      font-size: 14px;
+      padding: 20px;
+      color: $u-tips-color;
+      &.active {
+        color: $u-main-color;
+        transition: color 0.3s;
+      }
     }
   }
 

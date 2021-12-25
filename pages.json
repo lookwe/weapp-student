@@ -15,7 +15,7 @@
 		{
 			"path": "pages/home/home",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "首页",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -23,7 +23,7 @@
 		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "个人中心",
 				"enablePullDownRefresh": false,
                 "titleNView": false
 			}
@@ -31,7 +31,7 @@
 		{
 			"path": "pages/course-details/course-details",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "课程详情",
 				"enablePullDownRefresh": false,
                 "app-plus": {
                     "titleNView": {
@@ -50,10 +50,10 @@
             
         }
         ,{
-            "path" : "pages/registration/registration",
+            "path" : "pages/course-details/registration/registration",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "报名咨询",
                 "enablePullDownRefresh": false,
                 "app-plus": {
                     "titleNView": {
@@ -67,7 +67,7 @@
             "path" : "pages/inline-single/inline-single",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "课程列表",
                 "enablePullDownRefresh": false,
                 "app-plus": {
                     "titleNView": {
@@ -79,6 +79,24 @@
         }
         ,{
             "path" : "pages/course-list/course-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "待定",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/inline-single/catalog/catalog",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "目录",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/video-play/video-play",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

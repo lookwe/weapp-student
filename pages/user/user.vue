@@ -1,24 +1,25 @@
 <template>
   <view class="mod-user">
     <view>
-      <u-image width="100vw" hieght="420px" :src="src"></u-image>
+      <u-image width="100vw" hieght="420px" :src="bgSrc"></u-image>
     </view>
     <view class="user-page">
       <view class="user-base">
         <view class="user-imgage">
-          <u-image
-            class="img-head"
-            width="75"
-            height="75"
-            shape="circle"
-            :src="src"
-          ></u-image>
+          <view class="img-head">
+            <u-image
+              width="150rpx"
+              height="150rpx"
+              shape="circle"
+              :src="getUser.iconUrl"
+            ></u-image>
+          </view>
         </view>
         <view class="user-info">
-          <view class="fz-19 fw-600">你好旧时光</view>
-          <view class="fz-14 c-explain u-line-2"
-            >你好旧时你好旧时光好旧时你好旧时光23你好旧时光23你23你好旧时光23你好旧时光23光23</view
-          >
+          <view class="fz-19 fw-600">{{ getUser.userName }}</view>
+          <view class="fz-14 c-explain u-line-2">{{
+            getUser.signature || '什么也没留下'
+          }}</view>
         </view>
       </view>
 
@@ -58,22 +59,34 @@
       </view>
 
       <view class="m-b-30">
-        <u-button type="primary" text="退出登录"></u-button>
+        <u-button
+          type="primary"
+          text="退出登录"
+          @click="handlerLogout"
+        ></u-button>
       </view>
     </view>
   </view>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'user',
   data() {
     return {
-      src: 'https://obs-sxmaps.obs.cn-south-1.myhuaweicloud.com/1634286671506%E6%88%90%E8%80%83%E4%B8%93%E7%A7%91%E5%85%A5%E5%AD%A6%E6%95%B0%E5%AD%A6%E5%B0%81%E9%9D%A2.png?AccessKeyId=EFEFKMKB34MST8GOISMX&Expires=1640337454&Signature=ULStCaw0hxRCLL4s37w4bcPkt4c%3D'
+      bgSrc: 'https://s4.ax1x.com/2021/12/24/TYahAe.png'
     }
   },
-  created() {},
-  methods: {}
+  computed: {
+    ...mapGetters(['getUser'])
+  },
+
+  methods: {
+    ...mapActions({
+      handlerLogout: 'user/logout' // 将 `this.add()` 映射为 `this.$store.dispatch('increment')`
+    })
+  }
 }
 </script>
 
@@ -100,18 +113,15 @@ export default {
     .user-info {
       width: 75%;
       box-sizing: border-box;
-      padding: 15px 30px 15px 20px;
+      padding: 15px 10px;
 
       .fw-600 {
         padding-bottom: 15px;
-      }
-      .fz-15 {
       }
     }
   }
 
   .mod-nav-list {
-    margin-top: 15px;
     height: 250px;
 
     .li {
@@ -120,14 +130,10 @@ export default {
       padding: 15px 0;
       border-bottom: 1px solid #f0f0f0;
       font-size: 18px;
-
       .nav-item-name {
         padding-left: 30px;
       }
     }
-  }
-
-  .mod-bnt-logout {
   }
 }
 </style>
