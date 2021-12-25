@@ -121,14 +121,15 @@ export default {
     // 跳转试看视频
     onTryVideo() {
       uni.$u.route({
-        url: 'pages/inline-single/inline-single'
+        url: 'pages/video-play/video-play',
+        params: {}
       })
     },
 
     onItemLiClick(type, iiem) {
       switch (type) {
         case 'play-circle':
-          console.log('视频点击')
+          this.onTryVideo()
           break
 
         case 'edit-pen':

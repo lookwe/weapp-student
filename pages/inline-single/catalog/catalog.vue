@@ -20,6 +20,8 @@
 </template>
 
 <script>
+// 全科下面 单科，课程菜单列表页面
+
 import { mapGetters } from 'vuex'
 import CoursesModel from '@/models/coursesModel'
 import classEnum from '@/util/enum'

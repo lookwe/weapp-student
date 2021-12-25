@@ -99,8 +99,9 @@
             "path" : "pages/video-play/video-play",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "navigationBarTitleText": "课程",
+                "enablePullDownRefresh": false,
+                "titleNView": false
             }
             
         }
