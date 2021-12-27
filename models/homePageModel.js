@@ -26,7 +26,7 @@ class homePageModel {
      */
     static findCourseByName(params) {
         return http.get(apis.getCourseList, {
-            ...params
+            params
         })
     }
 

@@ -2,11 +2,7 @@
   <view class="mod-home u-page">
     <view class="mod-school flex jsb">
       <view class="mod-school__info">
-        <image
-          mode="scaleToFill"
-          :src="getSchoolInfo.logoUrl"
-          @error="imageError"
-        ></image>
+        <image mode="scaleToFill" :src="getSchoolInfo.logoUrl"></image>
 
         <text class="fz-24 fw-600">{{ getSchoolInfo.schoolName }}</text>
         <!-- 骨架 -->
@@ -14,27 +10,21 @@
       </view>
 
       <view class="mod-school__menu"
-        ><u-icon name="grid" size="40" @click="onCoursePopupShow"></u-icon
+        ><u-icon name="grid" size="40" @click="coursePopupShow = true"></u-icon
       ></view>
     </view>
 
-    <u-notify ref="uNotify" message="Hi uView">
-      <view class="mod-courses-class"
-        ><text>人生若只如初见，何事秋风悲画扇</text></view
-      >
-    </u-notify>
-
-    <!-- <u-popup
-			round="10"
-			borderRadius="10"
-			:customStyle="{top: '95px'}"
-			:overlayStyle="{ top: '95px'}"
-			:show="coursePopupShow" mode="top"
-			@close="onCoursePopupShow">
-			<view class="mod-courses-class">
-				<text>人生若只如初见，何事秋风悲画扇</text>
-			</view>
-		</u-popup> -->
+    <!-- 菜单树 -->
+    <u-picker
+      closeOnClickOverlay
+      :show="coursePopupShow"
+      :columns="tree"
+      keyName="name"
+      ref="uPicker"
+      @close="onCoursePopupHide"
+      @change="changeHandler"
+      @confirm="onTreeSelect"
+    ></u-picker>
 
     <!-- 搜索 -->
     <view class="mod-query u-box">
@@ -91,7 +81,6 @@
             mode="scaleToFill"
             :lazy-load="true"
             :src="item.coverUrl"
-            @error="imageError"
           ></image>
           <view class="fz-15 mod-course-name">{{ item.courseName }}</view>
           <view class="fz-12 course-item__class">
@@ -117,6 +106,9 @@ export default {
       swiperCurrent: 0,
       swiperList: [],
 
+      tree: [],
+      childList: [],
+      selectTree: [],
       coursePopupShow: false,
 
       //  [1=非VIP， 2=VIP]
@@ -134,20 +126,57 @@ export default {
   // 下拉刷新
   onPullDownRefresh() {},
 
-  // 滚到底部
-  onReachBottom(e) {
-    console.log(e)
-    this.getListData()
+  // 滚到底部 追加分页
+  onReachBottom() {
+    this.getListData((list) => {
+      this.currIndex += 1
+      this.courseList = this.courseList.concat(list)
+    })
   },
 
   created() {
     this.getBannerList()
     this.getListData()
+    this.getTreeList()
   },
 
   methods: {
-    imageError() {},
+    // 获取菜单树
+    getTreeList() {
+      this.tree = []
+      homePageModel.getCouresTree().then((data) => {
+        const { tree = [] } = data
 
+        // 1层菜单
+        tree.unshift({
+          id: '',
+          name: '所有',
+          childShopwindowTreeVOS: null
+        })
+        this.selectTree = [tree[0]] //默认选中第一项
+        this.tree = [tree]
+
+        // 2层菜单 业务
+        // let arryList = [[], []]
+        // let childList = [] // 二层数据
+        // tree.forEach((item) => {
+        //   arryList[0].push(item)
+        //   const child = item.childShopwindowTreeVOS
+
+        //   if (Array.isArray(child)) {
+        //     child.map((_item) => {
+        //       childList.push(_item)
+        //     })
+        //   } else {
+        //     childList.push([{ name: '暂无' }])
+        //   }
+        // })
+
+        // arryList[1] = childList[1]
+        // this.childList = childList
+        // this.tree = arryList
+      })
+    },
     // 获取轮播图
     getBannerList() {
       this.swiperList = []
@@ -156,30 +185,38 @@ export default {
       })
     },
 
-    // 获取精选课程
-    getListData() {
-      console.log(this.currIndex, this.totalPages)
-      if (this.currIndex > this.totalPages) {
+    getListData(callback) {
+      console.log('当前页：', this.currIndex, '总页：', this.totalPages)
+      if (this.currIndex != 0 && this.currIndex >= this.totalPages) {
         return
       }
       uni.showLoading({
         title: '加载中...'
       })
+
       const params = {
         size: 10,
         page: this.currIndex,
         shelvesState: 1, // 0未上架，1已上架
         positionType: this.isVip
       }
+
+      // TODO 暂时处理菜单一层
+      if (this.selectTree.length > 0) {
+        params.shopwindowId = this.selectTree[0].id
+      }
+
       homePageModel
         .getCourses(params)
         .then((data = {}) => {
-          this.currIndex += 1
-          this.totalPages = data.totalPages
-          console.log(this.currIndex, this.totalPages)
-
           const { content = [] } = data
-          this.courseList = this.courseList.concat(content)
+          if (content.length == 0) {
+            this.courseList = []
+            return
+          }
+          this.totalPages = data.totalPages - 1
+
+          callback ? callback(content) : (this.courseList = content)
         })
         .finally(() => {
           uni.hideLoading()
@@ -189,7 +226,7 @@ export default {
     onSwiperClick(index) {
       if (this.swiperList.length > 0) {
         const item = this.swiperList[index]
-        console.log(item)
+        this.toCourseDetails(item)
       }
     },
 
@@ -206,37 +243,45 @@ export default {
       })
     },
 
-    // 打开课程菜单树
-    onCoursePopupShow() {
-      this.coursePopupShow = !this.coursePopupShow
+    // 收到关闭菜单树
+    onCoursePopupHide() {
+      console.log(this.selectTree)
+      this.coursePopupShow = false
+      this.currIndex = 0
+      this.getListData()
+    },
 
-      if (this.coursePopupShow) {
-        console.log('开启')
-        this.$refs.uNotify.show({
-          top: 95,
-          safeAreaInsetTop: true,
-          type: 'error',
-          color: '#000',
-          bgColor: '#e8e8e8',
-          fontSize: 20,
-          safeAreaInsetTop: true
-        })
-      } else {
-        console.log('关闭')
-        this.$refs.uNotify.close({})
+    // 菜单树变化
+    changeHandler(e) {
+      const { columnIndex, value, index, picker = this.$refs.uPicker } = e
+
+      // 第一次层变化，更新该层下面子数据
+      if (columnIndex === 0 && this.childList.length) {
+        picker.setColumnValues(1, this.childList[index])
       }
+      this.selectTree = value
+    },
+
+    // 菜单 - 点击确认
+    onTreeSelect({ value }) {
+      this.selectTree = value
+      this.onCoursePopupHide()
     },
 
     // 切换Vip 类型
     onSwitchVip(isVip) {
       this.isVip = isVip
       this.getBannerList()
+
+      //  this.currIndex = 0
       //this.getListData()
     },
 
     // 点击输入框
     onSearchInput() {
-      console.log('1111')
+      uni.$u.route({
+        url: 'pages/search-list/search-list'
+      })
     }
   }
 }

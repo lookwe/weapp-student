@@ -1,0 +1,30 @@
+.mod-list {
+    margin-top: 80rpx;
+
+    &__item {
+        display: flex;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 16px 16px 0 rgba(50.1, 50.1, 71.27, 0.08),
+            0 24px 32px 0 rgba(50.1, 50.1, 71.27, 0.08);
+        background: $uni-text-color-inverse;
+
+        &:last-of-type {
+            margin-bottom: 100px;
+        }
+
+        .course-img {
+            width: 95px;
+            height: 95px;
+            background: #c0c4cc;
+        }
+
+        .course-box {
+            margin-left: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+}

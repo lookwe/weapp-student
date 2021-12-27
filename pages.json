@@ -101,6 +101,29 @@
             {
                 "navigationBarTitleText": "课程",
                 "enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/buy-course-details/buy-course-details",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/search-list/search-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索",
+                "enablePullDownRefresh": false,
                 "titleNView": false
             }
             

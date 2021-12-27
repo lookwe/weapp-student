@@ -49,6 +49,14 @@ ul {
     background: $uni-text-color-inverse;
 }
 
+.primary {
+    color: $u-primary;
+}
+
+.bg-primary {
+    background-color: $u-primary;
+}
+
 // 黑子重要字体 title 字体
 .c-main {
     color: $u-main-color;

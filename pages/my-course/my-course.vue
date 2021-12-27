@@ -5,6 +5,7 @@
         class="course-item m-b-30"
         v-for="(item, index) in courseList"
         :key="index"
+        @click="toBuyCoursePage(item)"
       >
         <view class="course-item__content">
           <view class="fz-14 c-describe"
@@ -47,6 +48,7 @@
 <script>
 import myCourseApi from '@/models/myCourseModel'
 import { UTCDateToLocalDate, getDaysBetween } from '@/util/utils'
+import store from '@/store'
 export default {
   name: 'myCourse',
   data() {
@@ -55,16 +57,22 @@ export default {
     }
   },
   created() {
-    console.log('123')
     this.initData()
   },
   methods: {
+    toBuyCoursePage(item) {
+      console.log(item)
+      store.dispatch('school/setBuyCourse', item)
+      uni.$u.route({
+        url: 'pages/buy-course-details/buy-course-details'
+      })
+    },
     initData() {
       this.courseList = []
       myCourseApi.getAllCourse().then((data) => {
         this.courseList = data.map((item) => {
           item.effectiveTime2 = parseInt(
-            // 根据当前时间 计算倒计时
+            // 根据当前时间 计算倒计时 视频播放 & 首页菜单树 & 搜索列表
             getDaysBetween(new Date(), UTCDateToLocalDate(item.serviceEndTime))
           )
           return item
@@ -81,7 +89,7 @@ export default {
 .mod-my-ourse {
   overflow-y: auto;
   .my-course-lst {
-    margin-top: 50px;
+    margin-top: 50rpx;
 
     .course-item {
       height: 170px;
@@ -91,7 +99,7 @@ export default {
 
       //flex-direction: row-reverse;
       background: #ffffff;
-      box-shadow: 11px 11px 22px #d9d9d9, -11px -11px 22px #ffffff;
+      box-shadow: 0 11px 22px #d9d9d9, 0 -11px 22px #ffffff;
 
       &__content {
         width: 55%;

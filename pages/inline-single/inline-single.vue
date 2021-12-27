@@ -56,19 +56,27 @@
 </template>
  
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'inlineSingle',
   computed: {
-    ...mapGetters(['getCourseInfo'])
+    ...mapGetters(['getCourseInfo', 'getVideoInfo'])
   },
   methods: {
+    ...mapActions({
+      setVideoInfo: 'school/setVideoInfo' // 将 `this.add()` 映射为 `this.$store.dispatch('increment')`
+    }),
     //   点击课程时刻
-    toDirectoryClick({ courseNo }) {
+    toDirectoryClick(item) {
+      // 把讲师加入 vuex 视频课程信息中
+      const obj = this.getVideoInfo
+      obj.lecturerVO = item.lecturerVO
+      this.setVideoInfo(obj)
+
       uni.$u.route({
         url: 'pages/inline-single/catalog/catalog',
         params: {
-          courseNo
+          courseNo: item.courseNo
         }
       })
     }
@@ -77,6 +85,7 @@ export default {
 </script>
  
 <style scoped lang="scss">
+@import '@/common/scss/com-list.scss';
 .mod-inline-single {
   height: 100vh;
   background: $uni-text-color-inverse;
@@ -99,39 +108,6 @@ export default {
     padding-right: 4px;
   }
 
-  .mod-list {
-    margin-top: 80px;
-    &__item {
-      display: flex;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 16px 16px 0 rgba(50.1, 50.1, 71.27, 0.08),
-        0 24px 32px 0 rgba(50.1, 50.1, 71.27, 0.08);
-      background: $uni-text-color-inverse;
 
-      &:last-of-type {
-        margin-bottom: 100px;
-      }
-
-      .course-img {
-        width: 95px;
-        height: 95px;
-        background: #c0c4cc;
-      }
-
-      .course-box {
-        margin-left: 15px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .u-line-1 {
-          width: 56.5%;
-        }
-      }
-    }
-  }
 }
 </style>
