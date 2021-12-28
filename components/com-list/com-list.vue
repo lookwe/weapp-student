@@ -6,7 +6,10 @@
         v-show="isDirectoryList"
       >
         <view
-          :class="['li', isBuy ? 'is-buy' : (item.tryLength > 0 ? 'is-buy' : 'no-buy'),]"
+          :class="[
+            'li',
+            isBuy ? 'is-buy' : item.tryLength > 0 ? 'is-buy' : 'no-buy'
+          ]"
           v-for="(item, index) in directoryList"
           :key="index"
           @click="onItemLiClick(typeName, item)"
@@ -77,7 +80,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getVideoInfo']),
+    ...mapGetters(['getVideoInfo', 'getBuyCourse']),
     // icon图片名称
     typeName() {
       const { api } = this.actionMap || {}
@@ -129,7 +132,7 @@ export default {
       }
     },
 
-    // 跳转试看视频
+    // 跳转视频
     onTryVideo() {
       uni.$u.route({
         url: 'pages/video-play/video-play',
@@ -137,22 +140,42 @@ export default {
       })
     },
 
+    // 跳转习题
+    toRouteAnswerPage(item) {
+      uni.$u.route({
+        url: 'pages/answer/answer',
+        params: {
+          title: item.examName,
+          courseNo: this.getBuyCourse.courseNo,
+          examNo: item.examNo,
+          ordersItemNo: this.getBuyCourse.ordersItemNo
+        }
+      })
+    },
+
     onItemLiClick(type, item) {
       switch (type) {
         case 'play-circle':
-          const obj = this.getVideoInfo
-          obj.item = item
-          this.setVideoInfo(obj)
-        
+          if (!this.isBuy && item.tryLength == 0) {
+            return
+          }
 
+          const obj = this.getVideoInfo
+          obj.item = { ...item, isBuy: this.isBuy }
+          this.setVideoInfo(obj)
           this.onTryVideo()
           break
 
         case 'edit-pen':
+          if (!this.isBuy) return
           console.log('习题点击')
+
+          this.toRouteAnswerPage(item)
+
           break
 
         case 'file-text':
+          if (!this.isBuy) return
           console.log('资料点击')
           break
       }

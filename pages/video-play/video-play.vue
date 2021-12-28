@@ -2,6 +2,7 @@
   <view class="mod-video-play">
     <com-video
       :src="getVideoInfo.item.fileUrl"
+      :isBuy="getVideoInfo.item.isBuy"
       @ended="videoEnd"
       @timeupdate="videoWatch"
       ref="comVideo"
@@ -59,11 +60,23 @@ export default {
       return this.getVideoInfo.item.tryLength * 60
     }
   },
+  beforeDestroy() {
+    // 离开前销毁 播放vuex 视频状态 保留老师
+    const obj = this.getVideoInfo
+    obj.item = {}
+    this.setVideoInfo(obj)
+  },
   methods: {
+    ...mapActions({
+      setVideoInfo: 'school/setVideoInfo'
+    }),
     videoEnd() {
       console.log('完毕')
     },
 
+    // ======> 非购买模块 <=======
+
+    // 扫码报名
     clickBuyCourse() {
       uni.$u.route({
         url: 'pages/course-details/registration/registration'
@@ -71,8 +84,7 @@ export default {
     },
 
     videoWatch({ detail }) {
-      console.log(detail)
-
+      // 判断是否试看模块
       const { currentTime } = detail
       if (currentTime > this.duration) {
         this.isTryEnd = true

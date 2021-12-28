@@ -33,12 +33,12 @@ export default {
       list: [],
       curNow: 0,
       courseNo: '',
-      lengths: [200, 200] // swiper 高度
+
+      isSign: [false, false]
     }
   },
   watch: {
-    curNow(index) {
-      console.log('发烧改变：', index)
+    curNow() {
       this.getDirectors()
     }
   },
@@ -65,18 +65,19 @@ export default {
 
     // 获取目录
     getDirectors() {
+      if (this.isSign[this.curNow]) {
+        return
+      }
       const { classModuleEnumCode } = this.list[this.curNow] || {}
       const refName = `comList${this.curNow}`
-      console.log(this.$refs[refName])
+
       this.$refs[refName].fetchDirectoryList(
         {
           classModuleEnumCode,
           courseNo: this.courseNo
         },
-        (list) => {
-          this.$set(this.lengths, this.curNow, list.length * 56)
-
-          console.log('求出高度：', this.lengths[this.curNow])
+        () => {
+          this.$set(this.isSign, this.curNow, true)
         }
       )
     }
