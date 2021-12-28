@@ -5,7 +5,7 @@
       class="com-video-class"
       :src="src"
       @error="videoErrorCallback"
-      @timeupdate="$emit('timeupdate', $event)"
+      @timeupdate="onTimeupdate"
       @ended="$emit('ended')"
       page-gesture
       controls
@@ -20,8 +20,10 @@ export default {
   name: 'vueName',
   props: {
     src: '',
-    width: '',
-    height: '',
+    isBuy: {
+      type: Boolean,
+      default: false
+    },
     duration: {
       type: Number,
       default: 0
@@ -47,6 +49,13 @@ export default {
   },
 
   methods: {
+    onTimeupdate(videoOjb) {
+      if (this.isBuy) {
+        // 购买视频 不用计算进度变化
+        return
+      }
+      $emit('timeupdate', videoOjb)
+    },
     videoErrorCallback: function (e) {
       uni.showModal({
         content: e.target.errMsg,

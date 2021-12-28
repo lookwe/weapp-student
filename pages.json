@@ -142,6 +142,20 @@
             }
             
         }
+        ,{
+            "path" : "pages/buy-course-details/inline-single/inline-single",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

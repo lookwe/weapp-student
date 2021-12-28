@@ -127,33 +127,43 @@ export default {
       setVideoInfo: 'school/setVideoInfo'
     }),
     toCurseDirectory(key) {
-      // 判断全科
+      const list = this.classTypeNavlist.filter((item) =>
+        item.classModuleEnumCode.includes(key)
+      )
+
+      //  跳转公共参数
+      const params = {
+        data: JSON.stringify(list),
+        title: this.getTypeName(key).name
+      }
 
       if (this.isSingleType) {
         // 把老师放入播放vuex里
         this.setVideoInfo({
-          lecturerVO: this.getBuyCourse.lecturerNo[0]
+          lecturerVO: this.getBuyCourse.lecturerVOS[0]
         })
-        this.toSingleCurse(key)
+        this.toSingleCurse(params)
       } else {
         // 全科
+        this.toAllListPage(params)
       }
     },
 
     // 跳转全科页面
-    toAllListPage() {},
+    toAllListPage(params) {
+      uni.$u.route({
+        url: 'pages/buy-course-details/inline-single/inline-single',
+        params
+      })
+    },
 
     // 跳转单科 课程目录
-    toSingleCurse(key) {
-      const params = this.classTypeNavlist.filter((item) =>
-        item.classModuleEnumCode.includes(key)
-      )
+    toSingleCurse(params) {
       uni.$u.route({
         url: 'pages/buy-course-details/directory/directory',
         params: {
-          data: JSON.stringify(params),
-          courseNo: this.getBuyCourse.courseNo,
-          title: this.getTypeName(key).name
+          ...params,
+          courseNo: this.getBuyCourse.courseNo
         }
       })
     }
