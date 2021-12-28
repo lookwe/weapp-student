@@ -60,6 +60,10 @@ const actions = {
             try {
                 uni.removeStorageSync('userInfo')
                 uni.removeStorageSync('token')
+                uni.removeStorageSync('videoInfo')
+                uni.removeStorageSync('buyCourse')
+
+
                 commit('RESET_STATE')
 
                 //uni.$u.toast(data.text)

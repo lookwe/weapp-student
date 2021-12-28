@@ -6,7 +6,7 @@
         v-show="isDirectoryList"
       >
         <view
-          :class="['li', item.tryLength > 0 ? 'is-buy' : 'no-buy']"
+          :class="['li', isBuy ? 'is-buy' : (item.tryLength > 0 ? 'is-buy' : 'no-buy'),]"
           v-for="(item, index) in directoryList"
           :key="index"
           @click="onItemLiClick(typeName, item)"
@@ -95,10 +95,10 @@ export default {
 
   methods: {
     ...mapActions({
-      setVideoInfo: 'school/setVideoInfo' // 将 `this.add()` 映射为 `this.$store.dispatch('increment')`
+      setVideoInfo: 'school/setVideoInfo'
     }),
     // 获取目录
-    fetchDirectoryList({ classModuleEnumCode, courseNo }) {
+    fetchDirectoryList({ classModuleEnumCode, courseNo }, callBack) {
       this.isDirectory = false
       if (classModuleEnumCode) {
         const actionMap = classEnum[classModuleEnumCode]
@@ -117,7 +117,7 @@ export default {
               this.isDirectory = true
               this.directoryList = data
 
-              console.log(this.directoryList)
+              callBack && callBack(data)
             }
           })
           .catch(() => {
@@ -143,8 +143,7 @@ export default {
           const obj = this.getVideoInfo
           obj.item = item
           this.setVideoInfo(obj)
-
-          console.log(this.getVideoInfo)
+        
 
           this.onTryVideo()
           break

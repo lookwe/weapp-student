@@ -23,14 +23,14 @@
 // 全科下面 单科，课程菜单列表页面
 
 import { mapGetters } from 'vuex'
-import CoursesModel from '@/models/coursesModel'
 import classEnum from '@/util/enum'
+import menuMixin from '@/common/mixin/menuMixin'
 
 export default {
   name: 'catalog',
+  mixins: [menuMixin],
   data() {
     return {
-      classTypeNavlist: [],
       currentClassType: 0
     }
   },
@@ -63,21 +63,10 @@ export default {
     const { classTypeNo } =
       this.getCourseInfo.classTypeVOS[this.getCourseInfo.currentClassType] || {}
 
-    // 获取菜单资源
-    this.fetchClassTypeNavlist({ classTypeNo })
+    // 获取菜单资源 混入函数
+    this.fetchClassTypeNavlist({ classTypeNo }, this.getDirectors)
   },
   methods: {
-    // 数据初始化 组件调用
-    fetchClassTypeNavlist({ classTypeNo }) {
-      this.classTypeNavlist = []
-      this.currentClassType = 0
-      CoursesModel.getClassTypeModule({ classTypeNo }).then((data) => {
-        this.classTypeNavlist = data
-
-        this.getDirectors()
-      })
-    },
-
     // 获取目录
     getDirectors() {
       const { classModuleEnumCode } =
@@ -107,7 +96,7 @@ export default {
     left: 0;
     width: 100vw;
     height: 80rpx;
-    background: $u-border-color; //$u-info-disabled;
+    background: $u-border-color;
     overflow-x: auto;
     white-space: nowrap;
     line-height: 80rpx;

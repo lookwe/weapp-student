@@ -28,6 +28,7 @@
         <view class="course-item__image">
           <u-image
             width="100%"
+            height="170px"
             mode="scaleToFill"
             :src="item.coverUrl"
           ></u-image>
@@ -61,7 +62,10 @@ export default {
   },
   methods: {
     toBuyCoursePage(item) {
-      console.log(item)
+      if (item.effectiveTime2 < 1) {
+        return
+      }
+
       store.dispatch('school/setBuyCourse', item)
       uni.$u.route({
         url: 'pages/buy-course-details/buy-course-details'
@@ -72,7 +76,7 @@ export default {
       myCourseApi.getAllCourse().then((data) => {
         this.courseList = data.map((item) => {
           item.effectiveTime2 = parseInt(
-            // 根据当前时间 计算倒计时 视频播放 & 首页菜单树 & 搜索列表
+            // 根据当前时间
             getDaysBetween(new Date(), UTCDateToLocalDate(item.serviceEndTime))
           )
           return item

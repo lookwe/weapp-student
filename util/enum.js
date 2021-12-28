@@ -1,14 +1,16 @@
 export default {
     // 视频
     RECORD: {
-        name: ['录播', '基础课'],
+        name: '基础课',
+        typeName: '视频',
         api: 'getRecordingCourseDutyList',
         parmas: {
             recordingType: 2,
         }
     },
     ADVANCED_RECORD: {
-        name: ['进阶课'],
+        name: '进阶课',
+        typeName: '视频',
         parmas: {
             recordingType: 3,
         },
@@ -18,14 +20,16 @@ export default {
 
     // 题目
     EXERCISE: {
-        name: ['章节习题', '综合习题'],
+        name: '章节习题',
+        typeName: '题库',
         parmas: {
             type: 1,
         },
         api: 'getExams',
     },
     ADVANCED_EXERCISE: {
-        name: ['进阶习题'],
+        name: '进阶习题',
+        typeName: '题库',
         parmas: {
             type: 2,
         },
@@ -35,14 +39,16 @@ export default {
 
     // 资料
     MATERIAL: {
-        name: ['资料'],
+        name: '资料',
+        typeName: '资料',
         parmas: {
             type: 1,
         },
         api: 'getMaterials',
     },
     ADVANCED_MATERIAL: {
-        name: ['进阶资料'],
+        name: '进阶资料',
+        typeName: '资料',
         parmas: {
             type: 2,
         },

@@ -113,8 +113,13 @@
             "path" : "pages/buy-course-details/buy-course-details",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "navigationBarTitleText": "学习",
+                "enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
             }
             
         }
@@ -125,6 +130,15 @@
                 "navigationBarTitleText": "搜索",
                 "enablePullDownRefresh": false,
                 "titleNView": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/buy-course-details/directory/directory",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
             }
             
         }

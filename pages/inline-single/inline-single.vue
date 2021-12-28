@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      setVideoInfo: 'school/setVideoInfo' // 将 `this.add()` 映射为 `this.$store.dispatch('increment')`
+      setVideoInfo: 'school/setVideoInfo'
     }),
     //   点击课程时刻
     toDirectoryClick(item) {
@@ -90,8 +90,8 @@ export default {
   height: 100vh;
   background: $uni-text-color-inverse;
   overflow-y: auto;
-  background-image: url(https://s4.ax1x.com/2021/12/23/T8sGef.png);
-  background-repeat: no-repeat;
+  background: url(https://s4.ax1x.com/2021/12/23/T8sGef.png) no-repeat;
+  //   background-repeat: no-repeat;
   background-size: 100% 70%;
   position: relative;
 
@@ -107,7 +107,5 @@ export default {
   .txt-pr-2 {
     padding-right: 4px;
   }
-
-
 }
 </style>
