@@ -101,7 +101,44 @@
             {
                 "navigationBarTitleText": "课程",
                 "enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/buy-course-details/buy-course-details",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "学习",
+                "enablePullDownRefresh": false,
+                "app-plus": {
+                    "titleNView": {
+                        "type": "transparent"
+                    }
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/search-list/search-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索",
+                "enablePullDownRefresh": false,
                 "titleNView": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/buy-course-details/directory/directory",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
             }
             
         }

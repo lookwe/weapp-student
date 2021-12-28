@@ -1,6 +1,6 @@
 <template>
   <!-- 报名咨询 -->
-  <view class="mod-registration u-page">
+  <view class="mod-registration">
     <view></view>
 
     <view class="code-img">
@@ -64,6 +64,7 @@ export default {
   height: 100vh;
   background: $u-primary;
   overflow: hidden;
+  padding: 0 30px;
 
   .code-img {
     border-radius: 18px;

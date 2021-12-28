@@ -1,15 +1,18 @@
 <template>
-  <video
-    id="comVideo"
-    :src="src"
-    @error="videoErrorCallback"
-    @timeupdate="$emit('timeupdate', $event)"
-    @ended="$emit('ended')"
-    page-gesture
-    controls
-    :duration="duration"
-    ref="videoRef"
-  ></video>
+  <view class="video-box">
+    <video
+      id="com-video"
+      class="com-video-class"
+      :src="src"
+      @error="videoErrorCallback"
+      @timeupdate="$emit('timeupdate', $event)"
+      @ended="$emit('ended')"
+      page-gesture
+      controls
+      :duration="duration"
+      ref="videoRef"
+    ></video>
+  </view>
 </template>
  
 <script>
@@ -21,7 +24,7 @@ export default {
     height: '',
     duration: {
       type: Number,
-      default: 30
+      default: 0
     }
   },
   data() {
@@ -30,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    const createVideoContext = uni.createVideoContext('comVideo', this)
+    const createVideoContext = uni.createVideoContext('com-video', this)
 
     // #ifdef H5
     this.videoVm = this.$refs.videoRef || createVideoContext.pageVm
@@ -39,6 +42,8 @@ export default {
     // #ifdef MP-WEIXIN
     this.videoVm = createVideoContext
     // #endif
+
+    console.log(this.videoVm)
   },
 
   methods: {
@@ -56,10 +61,14 @@ export default {
   }
 }
 </script>
- 
-<style scoped lang="scss">
-#comVideo {
+
+<style>
+.video-box {
   width: 100vw;
+}
+
+.com-video-class {
+  width: 100%;
   height: 430rpx;
 }
 </style>

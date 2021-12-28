@@ -7,6 +7,7 @@ const keyObj = {
     schoolInfo: '网校信息',
     courseInfo: '课程详情',
     videoInfo: '课程视频',
+    buyCourse: '购买课程详情',
 };
 
 export default keyObj

@@ -1,12 +1,12 @@
 <template>
   <view>
-    <u-transition :show="!!directoryList.length" mode="fade-left">
+    <u-transition :show="isDirectory" mode="fade-left">
       <view
         :class="['mod-nav-list', 'm-b-30', isBuy ? 'is-buy' : 'no-buy']"
-        v-show="directoryList.length"
+        v-show="isDirectoryList"
       >
         <view
-          :class="['li', item.tryLength > 0 ? 'is-buy' : 'no-buy']"
+          :class="['li', isBuy ? 'is-buy' : (item.tryLength > 0 ? 'is-buy' : 'no-buy'),]"
           v-for="(item, index) in directoryList"
           :key="index"
           @click="onItemLiClick(typeName, item)"
@@ -45,7 +45,7 @@
     </u-transition>
 
     <u-transition :show="isDirectory" mode="fade-left">
-      <view v-show="!directoryList.length">
+      <view v-show="!isDirectoryList">
         <u-empty
           mode="list"
           icon="http://cdn.uviewui.com/uview/empty/list.png"
@@ -56,6 +56,7 @@
 </template>
  
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import CoursesModel from '@/models/coursesModel'
 import classEnum from '@/util/enum'
 export default {
@@ -76,6 +77,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getVideoInfo']),
     // icon图片名称
     typeName() {
       const { api } = this.actionMap || {}
@@ -84,12 +86,19 @@ export default {
         getExams: 'edit-pen', // 习题·
         getMaterials: 'file-text' // 资料
       }[api]
+    },
+
+    isDirectoryList() {
+      return Boolean(this.directoryList.length)
     }
   },
 
   methods: {
+    ...mapActions({
+      setVideoInfo: 'school/setVideoInfo'
+    }),
     // 获取目录
-    fetchDirectoryList({ classModuleEnumCode, courseNo }) {
+    fetchDirectoryList({ classModuleEnumCode, courseNo }, callBack) {
       this.isDirectory = false
       if (classModuleEnumCode) {
         const actionMap = classEnum[classModuleEnumCode]
@@ -100,13 +109,15 @@ export default {
           ...actionMap.parmas,
           courseNo
         })
-          .then((directoryList) => {
+          .then((data) => {
             console.log('课程目录')
-            console.log(directoryList)
+            console.log(data)
 
-            if (Array.isArray(directoryList)) {
+            if (Array.isArray(data)) {
               this.isDirectory = true
-              this.directoryList = directoryList
+              this.directoryList = data
+
+              callBack && callBack(data)
             }
           })
           .catch(() => {
@@ -126,9 +137,14 @@ export default {
       })
     },
 
-    onItemLiClick(type, iiem) {
+    onItemLiClick(type, item) {
       switch (type) {
         case 'play-circle':
+          const obj = this.getVideoInfo
+          obj.item = item
+          this.setVideoInfo(obj)
+        
+
           this.onTryVideo()
           break
 
