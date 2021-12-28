@@ -80,7 +80,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getVideoInfo']),
+    ...mapGetters(['getVideoInfo', 'getBuyCourse']),
     // icon图片名称
     typeName() {
       const { api } = this.actionMap || {}
@@ -132,11 +132,24 @@ export default {
       }
     },
 
-    // 跳转试看视频
+    // 跳转视频
     onTryVideo() {
       uni.$u.route({
         url: 'pages/video-play/video-play',
         params: {}
+      })
+    },
+
+    // 跳转习题
+    toRouteAnswerPage(item) {
+      uni.$u.route({
+        url: 'pages/answer/answer',
+        params: {
+          title: item.examName,
+          courseNo: this.getBuyCourse.courseNo,
+          examNo: item.examNo,
+          ordersItemNo: this.getBuyCourse.ordersItemNo
+        }
       })
     },
 
@@ -156,6 +169,8 @@ export default {
         case 'edit-pen':
           if (!this.isBuy) return
           console.log('习题点击')
+
+          this.toRouteAnswerPage(item)
 
           break
 

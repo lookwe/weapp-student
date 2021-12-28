@@ -156,6 +156,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/answer/answer",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
