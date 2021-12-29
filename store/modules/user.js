@@ -71,6 +71,7 @@ const actions = {
                 // 会登录页
                 uni.$u.route({
                     url: 'pages/login/login',
+                    type: 'reLaunch', // 关闭所有页面 去登录页
                     params: {
                         test: 123, // 判断是否回源
                     }

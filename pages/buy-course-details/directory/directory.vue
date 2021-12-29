@@ -33,6 +33,7 @@ export default {
       list: [],
       curNow: 0,
       courseNo: '',
+      ordersItemNo: '',
 
       isSign: [false, false]
     }
@@ -42,8 +43,9 @@ export default {
       this.getDirectors()
     }
   },
-  onLoad({ data, courseNo, title }) {
+  onLoad({ data, courseNo, title, ordersItemNo }) {
     this.courseNo = courseNo
+    this.ordersItemNo = ordersItemNo
     this.list = JSON.parse(data)
 
     if (this.list.length > 0) {
@@ -74,9 +76,11 @@ export default {
       this.$refs[refName].fetchDirectoryList(
         {
           classModuleEnumCode,
-          courseNo: this.courseNo
+          courseNo: this.courseNo,
+          ordersItemNo: this.ordersItemNo
         },
         () => {
+          // 成功就表示为true， 下次不在重复请求
           this.$set(this.isSign, this.curNow, true)
         }
       )

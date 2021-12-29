@@ -97,7 +97,8 @@ export default {
         url: 'pages/buy-course-details/directory/directory',
         params: {
           ...this.params,
-          courseNo: item.courseNo
+          courseNo: item.courseNo,
+          ordersItemNo: item.ordersItemNo
         }
       })
     }

@@ -17,18 +17,22 @@ function LogBackIn() {
 module.exports = (vm) => {
     uni.$u.http.interceptors.response.use((response) => {
         const data = response.data || {}
-        // 自定义参数，设置动画logding
-        //const custom = response.config ? .custom
+        // 自定义参数，设置动画logding 或 跳过拦截
+        const custom = response.config.custom
 
-        if (data.code !== 200) {
+        if (data.code !== 200 && !custom.backRespon) {
             // 不是200 则标识失败
-            console.log(123411111);
+            console.log('接口没有收到code 200');
             uni.$u.toast(data.text)
 
             // ['强制退出', 'token过期', '无效token']
             if ([5003, 5002, 5001].includes(data.code)) {
                 LogBackIn()
             }
+        }
+
+        if (custom.backRespon) {
+            return data
         }
         return data.data
     }, (response) => {

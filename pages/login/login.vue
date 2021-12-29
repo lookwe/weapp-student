@@ -157,7 +157,7 @@ export default {
 .dom-login ::v-deep .u-input {
   background: $uni-text-color-inverse;
 }
-input:-internal-autofill-selected {
+.dom-login input:-internal-autofill-selected {
   background: $uni-text-color-inverse;
 }
 </style>
