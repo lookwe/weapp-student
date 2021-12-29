@@ -82,7 +82,7 @@
             :lazy-load="true"
             :src="item.coverUrl"
           ></image>
-          <view class="fz-15 mod-course-name">{{ item.courseName }}</view>
+          <view class="fz-15 u-line-2">{{ item.courseName }}</view>
           <view class="fz-12 course-item__class">
             <text>{{ item.courseType == 0 ? '单科' : '全科' }}</text>
             <text>{{ item.classTypeNum }}个班型可选</text>
@@ -364,8 +364,8 @@ export default {
 
       .course-item {
         width: 48%;
-        height: 280px;
-        margin-bottom: 18px;
+        height: 265px;
+        margin-bottom: 10px;
 
         &:nth-of-type(odd) {
           margin-right: 4%;
@@ -374,11 +374,11 @@ export default {
         image {
           display: inline-block;
           width: 100%;
-          height: 184px;
+          height: 165px;
         }
 
         &__class {
-          margin: 8px 0;
+          margin: 10px 0;
           text {
             padding: 4px;
             border-radius: 3px;

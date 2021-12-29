@@ -25,7 +25,13 @@
           <view class="icon-right">
             <!-- 视频 -->
             <view v-show="typeName === 'play-circle'">
-              <view v-if="isBuy"> </view>
+              <view v-if="isBuy">
+                <text
+                  class="fz-12 c-error"
+                  v-if="!!item.watchCurrentDutyScheduleStatus"
+                  >继续上次</text
+                >
+              </view>
               <view v-else>
                 <text v-if="item.tryLength > 0" class="c-error">试看</text>
               </view>
@@ -33,7 +39,13 @@
 
             <!-- 习题 -->
             <view v-show="typeName === 'edit-pen'">
-              <view v-if="isBuy"> </view>
+              <view v-if="isBuy">
+                <text
+                  class="fz-12 c-error"
+                  v-if="!!item.writeCurrentExamScheduleStatus"
+                  >继续上次</text
+                >
+              </view>
               <view v-else> </view>
             </view>
 
@@ -61,6 +73,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import CoursesModel from '@/models/coursesModel'
+import myCourseApi from '@/models/myCourseModel'
 import classEnum from '@/util/enum'
 export default {
   name: 'comList',
@@ -101,17 +114,30 @@ export default {
       setVideoInfo: 'school/setVideoInfo'
     }),
     // 获取目录
-    fetchDirectoryList({ classModuleEnumCode, courseNo }, callBack) {
+    fetchDirectoryList(
+      { classModuleEnumCode, courseNo, ordersItemNo },
+      callBack
+    ) {
       this.isDirectory = false
       if (classModuleEnumCode) {
         const actionMap = classEnum[classModuleEnumCode]
         this.actionMap = actionMap
         this.directoryList = []
 
-        CoursesModel[actionMap.api]({
+        const params = {
           ...actionMap.parmas,
           courseNo
-        })
+        }
+
+        let MODEl = CoursesModel // 默认游客模块接口服务
+
+        if (this.isBuy) {
+          params.ordersItemNo = ordersItemNo
+          MODEl = myCourseApi // 付费课程接口
+        }
+        console.log('最后参数：', params)
+
+        MODEl[actionMap.api](params)
           .then((data) => {
             console.log('课程目录')
             console.log(data)

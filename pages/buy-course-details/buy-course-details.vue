@@ -133,7 +133,7 @@ export default {
 
       //  跳转公共参数
       const params = {
-        data: JSON.stringify(list),
+        data: JSON.stringify(list), // 【基础、进阶】
         title: this.getTypeName(key).name
       }
 
@@ -163,7 +163,8 @@ export default {
         url: 'pages/buy-course-details/directory/directory',
         params: {
           ...params,
-          courseNo: this.getBuyCourse.courseNo
+          courseNo: this.getBuyCourse.courseNo,
+          ordersItemNo: this.getBuyCourse.ordersItemNo
         }
       })
     }

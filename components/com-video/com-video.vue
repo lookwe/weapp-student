@@ -54,7 +54,7 @@ export default {
         // 购买视频 不用计算进度变化
         return
       }
-      $emit('timeupdate', videoOjb)
+      this.$emit('timeupdate', videoOjb)
     },
     videoErrorCallback: function (e) {
       uni.showModal({

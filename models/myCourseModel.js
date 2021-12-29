@@ -74,7 +74,7 @@ class myCourse {
     }
 
     /**
-     * 获取习题
+     * 获取习题记录
      * @author huangzhongfei
      * @param {any} ordersItemNo 子订单编号 
      * @param {any} courseNo 课程编号 
@@ -90,7 +90,7 @@ class myCourse {
 
 
     /**
-     * 获取题库
+     * 获取题库列表
      * @author huangzhongfei
      * @param {any} ordersItemNo 子订单编号 
      * @param {any} courseNo 课程编号 
@@ -98,7 +98,7 @@ class myCourse {
      * @date 2021-11-1
      * @returns {any}
      */
-    static getExamsList(params) {
+    static getExams(params) {
         return http.get(apis.getExamsList, {
             params
         })
