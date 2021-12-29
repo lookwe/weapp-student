@@ -17,7 +17,7 @@ import $store from "@/store";
 export function readTxtFile(params, list, isReset) {
     return new Promise((resolve) => {
         const defaultObj = {
-            index: 1,
+            index: 0,
             list
         }
 
@@ -31,24 +31,26 @@ export function readTxtFile(params, list, isReset) {
             if (!data) {
                 resolve(defaultObj)
             } else {
+                // $store.getters.getToken,
+
                 http.get(data.exerciseSnapshotUrl, {
                     custom: {
                         backRespon: true
                     },
                     header: {
-                        'Content-Type': ''
+                        'content-type': ' ',
                     },
                     //responseType: 'text',
 
                 }).then((data) => {
-                    // resolve(formatJSON(data, list))
                     console.log('有、答题记录---');
                     console.log(data);
-                    resolve({
-                        list: list,
-                        index: 0,
-                        isInit: false,
-                    })
+                })
+
+                resolve({
+                    list: list,
+                    index: 0,
+                    isInit: false,
                 })
             }
         }).catch(e => {

@@ -28,11 +28,10 @@ module.exports = (vm) => {
             // 默认请求头
             header: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': contentType,
+                'content-type': contentType,
                 'authority': 'edu.juhezaixian.cn',
             }
         }
-        console.log(config);
         return config
     })
     require('./requestInterceptors')(vm)

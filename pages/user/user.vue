@@ -88,12 +88,17 @@ export default {
     ...mapGetters(['getUser'])
   },
   onLoad() {
+    console.log(uni.$u.sys())
+
+    const { screenHeight } = uni.$u.sys()
+    const bgImg = screenHeight * 0.3
     // #ifdef H5
-    this.previousMargin = '470rpx'
+    this.previousMargin = bgImg - 10 + 'px'
+    console.log(this.previousMargin)
     // #endif
 
     // #ifdef MP-WEIXIN
-    this.previousMargin = '400rpx'
+    this.previousMargin = bgImg - 44 + 'px'
     // #endif
   },
 
