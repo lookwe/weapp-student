@@ -8,7 +8,7 @@ export default {
         // 形状，square为方形，circle为圆型
         shape: {
             type: String,
-            default: uni.$u.props.checkbox.shape
+            default: ''
         },
         // 整体的大小
         size: {
@@ -64,6 +64,15 @@ export default {
         labelDisabled: {
             type: [String, Boolean],
             default: uni.$u.props.checkbox.labelDisabled
-        }
+        },
+        id: {
+            type: [String, Number],
+            default: '0'
+        },
+        // 正确选项
+        success: {
+            type: [String, Number],
+            default: 0
+        },
     }
 }

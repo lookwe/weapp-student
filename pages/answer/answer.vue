@@ -90,20 +90,29 @@
             <!-- 多选 -->
             <view v-if="item.exerciseType == 4">
               <u-checkbox-group
+                :disabled="!!item.answer.id"
+                :isDefuCSS="!item.answer.id"
+                :ref="`answerCheckbox${index}`"
                 shape="circle"
-                v-model="checkboxValue1"
+                v-model="item.answer.answer"
                 placement="column"
-                @change="checkboxChange"
               >
                 <u-checkbox
-                  :customStyle="{ marginBottom: '8px' }"
-                  v-for="(item, index) in checkboxList1"
-                  :key="index"
-                  :label="item.name"
-                  :name="item.name"
+                  :customStyle="{ marginBottom: '20px' }"
+                  v-for="(_item, _index) in item.exerciseOptionVOS"
+                  :key="_index"
+                  :label="_item.exerciseOptionContent"
+                  :name="_item.exerciseOption"
+                  :id="_item.id"
+                  :success="_item.isCorrect"
                 >
                 </u-checkbox>
               </u-checkbox-group>
+              <u-button
+                type="primary"
+                text="提交"
+                @click="onSubmitCheckbox"
+              ></u-button>
             </view>
 
             <!-- 填空 -->
@@ -111,13 +120,10 @@
 
             <!-- 综合 -->
             <view v-if="item.exerciseType == 6"> </view>
-
-            <!-- 多选 -->
-            <view> </view>
           </view>
 
           <!-- 试题解析 是否正确 反馈 -->
-          <view class="fz-15 flex jsb">
+          <view class="fz-15 flex jsb m-b-30">
             <view>
               <view v-if="[1, 5].includes(item.exerciseType)">
                 <text class="c-success" v-if="item.answer.judge == 1"
@@ -149,14 +155,24 @@
           >
             <view class="fz-15 u-box analysis-answer m-b-30">
               <view class="fz-16 fw-600">习题解析</view>
+
+              <!-- 问答-填空题 -- 正确答案  -->
+              <view class="c-primary" v-if="[1, 5].includes(item.exerciseType)">
+                正确答案：
+                <text v-html="'C'"></text>
+              </view>
+
+              <!-- 判断，单选、多选 =》 正确答案  -->
               <view
                 class="c-primary"
                 v-if="[2, 3, 4].includes(item.exerciseType)"
               >
                 正确答案：
-                <!-- TODO 小程序兼容-->
-                <text v-html="'C'"></text>
+                <text>
+                  {{ computSuccess(item.exerciseOptionVOS) }}
+                </text>
               </view>
+
               <view class="answer-title">
                 <!-- #ifdef MP-WEIXIN -->
                 <!-- <rich-text :nodes="item.analysisAnswer"></rich-text> -->
@@ -211,24 +227,7 @@ export default {
   data() {
     return {
       index: 0,
-      exerciseList: [],
-
-      checkboxValue1: [],
-      // 基本案列数据
-      checkboxList1: [
-        {
-          name: '苹果',
-          disabled: false
-        },
-        {
-          name: '香蕉',
-          disabled: false
-        },
-        {
-          name: '橙子',
-          disabled: false
-        }
-      ]
+      exerciseList: []
     }
   },
   onLoad(obj) {
@@ -240,7 +239,7 @@ export default {
     typeName() {
       // 1:问答题  2:判断题  3:单选题  4:多选题 5:填空题 6:综合体（有子试题）
       return (type) => {
-        return enums.EXERCOES_NAME[type] || '未知'
+        return enums.EXERCOES_NAME[type] || '未知题型'
       }
     },
 
@@ -263,9 +262,16 @@ export default {
       const { current } = target
       this.index = current
     },
-
-    checkboxChange(n) {
-      console.log('change', n)
+    // 计算正确答案
+    computSuccess(arr) {
+      const strArr = []
+      arr.forEach((item) => {
+        if (item.isCorrect == 1) {
+          // exerciseOption 选项ID
+          strArr.push(enums.WORD[item.exerciseOption] || '~')
+        }
+      })
+      return strArr.length > 0 && strArr.join()
     },
 
     // 用户自行判断对错
@@ -319,10 +325,20 @@ export default {
     // [填空题]选择后
     onSubmitQuestion() {
       const ab = this.currAnswer
-
-      // todo 提交后 还要让用户自己判断 答对答错
       ab.answer.id = ab.id
       this.saveAnswer()
+    },
+
+    // [多选题] 提交按钮
+    onSubmitCheckbox() {
+      const ab = this.currAnswer
+      if (ab.answer.id) return
+
+      ab.answer.id = ab.id
+      const successIndexs =
+        this.$refs['answerCheckbox' + this.index][0].unCheckedOther() // 获取正确选项
+
+      console.log(successIndexs)
     }
   }
 }

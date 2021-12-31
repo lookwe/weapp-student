@@ -209,6 +209,7 @@ export default {
       return style
     },
 
+    // 判断对错 css
     coutomStyle() {
       let style = {}
       if (this.success == 1) {
@@ -223,7 +224,6 @@ export default {
         }
       }
       style.color = '#fff'
-
       return style
     }
   },
@@ -239,7 +239,6 @@ export default {
       }
       // 设置初始化时，是否默认选中的状态
       this.checked = this.id == this.parentData.value
-
 
       // 初始化 判断是否加 正确选项样式
       if (this.parentData.isDefuCSS === false) {
@@ -339,7 +338,7 @@ $u-radio-label-disabled-color: #c8c9cc !default;
     font-size: 30rpx;
     margin-right: 15px;
     padding: 5px 8px;
-    border: 1px solid #666;
+    border: 1px solid #f0f0f0;
     border-radius: 50%;
     border-width: $u-radio-wrap-border-width;
     border-color: $u-radio-wrap-border-color;

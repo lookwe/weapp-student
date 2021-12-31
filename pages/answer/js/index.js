@@ -80,7 +80,7 @@ function getAnswer() {
         parentId: 0,
         answer: [{
             content: '',
-            id: ''
+            id: ""
         }]
     }
     return answer
