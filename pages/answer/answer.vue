@@ -45,11 +45,12 @@
             <!-- 问答 -->
             <view v-if="item.exerciseType == 1">
               <view class="u-box">
-                <u-input
+                <u-textarea
+                  autoHeight
                   v-model="item.answer.answer[0].content"
                   :disabled="!!item.answer.id"
                   placeholder="请输入正确答案"
-                ></u-input>
+                ></u-textarea>
               </view>
               <u-button
                 type="primary"
@@ -87,7 +88,23 @@
             </view>
 
             <!-- 多选 -->
-            <view v-if="item.exerciseType == 4"> </view>
+            <view v-if="item.exerciseType == 4">
+              <u-checkbox-group
+                shape="circle"
+                v-model="checkboxValue1"
+                placement="column"
+                @change="checkboxChange"
+              >
+                <u-checkbox
+                  :customStyle="{ marginBottom: '8px' }"
+                  v-for="(item, index) in checkboxList1"
+                  :key="index"
+                  :label="item.name"
+                  :name="item.name"
+                >
+                </u-checkbox>
+              </u-checkbox-group>
+            </view>
 
             <!-- 填空 -->
             <view v-if="item.exerciseType == 5"> </view>
@@ -103,15 +120,26 @@
           <view class="fz-15 flex jsb">
             <view>
               <view v-if="[1, 5].includes(item.exerciseType)">
-                <text class="c-success" v-if="true">这道题您做对了</text>
-                <text class="c-success" v-else>这道题您做错了</text>
+                <text class="c-success" v-if="item.answer.judge == 1"
+                  >这道题您做对了</text
+                >
+                <text class="c-error" v-else-if="item.answer.judge == 0"
+                  >这道题您做错了</text
+                >
               </view>
             </view>
-            <text
-              class="c-primary"
-              @click="item.isShowAnalysis = !item.isShowAnalysis"
-              >试题解析</text
-            >
+            <view class="flex">
+              <u-icon
+                class="m-right-2"
+                color="primary"
+                name="info-circle"
+              ></u-icon>
+              <view
+                class="c-primary"
+                @click="item.isShowAnalysis = !item.isShowAnalysis"
+                >试题解析</view
+              >
+            </view>
           </view>
 
           <!-- 习题解析 -->
@@ -142,6 +170,29 @@
                 ></text>
                 <!-- #endif -->
               </view>
+
+              <!-- 用户判断对错按钮 -->
+              <view
+                v-if="
+                  item.answer.judge == -1 && [1, 5].includes(item.exerciseType)
+                "
+                class="flex jsb juage-box u-box"
+              >
+                <u-button
+                  class="bnt bnt-error"
+                  color=""
+                  type="primary"
+                  text="答错了"
+                  @click="onUserJudge(0)"
+                ></u-button>
+
+                <u-button
+                  type="primary"
+                  class="bnt bnt-success"
+                  text="答对了"
+                  @click="onUserJudge(1)"
+                ></u-button>
+              </view>
             </view>
           </u-transition>
         </view>
@@ -161,8 +212,23 @@ export default {
     return {
       index: 0,
       exerciseList: [],
-      // u-radio-group的v-model绑定的值如果设置为某个radio的name，就会被默认选中
-      radiovalue1: 1
+
+      checkboxValue1: [],
+      // 基本案列数据
+      checkboxList1: [
+        {
+          name: '苹果',
+          disabled: false
+        },
+        {
+          name: '香蕉',
+          disabled: false
+        },
+        {
+          name: '橙子',
+          disabled: false
+        }
+      ]
     }
   },
   onLoad(obj) {
@@ -182,13 +248,31 @@ export default {
       return (index) => {
         return enums.WORD[index] || '~'
       }
+    },
+
+    currAnswer() {
+      return this.exerciseList[this.index]
     }
   },
 
   methods: {
+    saveAnswer() {
+      this.$set(this.exerciseList, this.index, this.currAnswer)
+    },
     sectionChange({ target }) {
       const { current } = target
       this.index = current
+    },
+
+    checkboxChange(n) {
+      console.log('change', n)
+    },
+
+    // 用户自行判断对错
+    onUserJudge(judge) {
+      const ab = this.currAnswer
+      ab.answer.judge = judge
+      this.saveAnswer()
     },
     initData(obj, isReset) {
       delete obj.title
@@ -211,7 +295,7 @@ export default {
           // 读取进度 并转 前端格式
           readTxtFile(params, JSON.parse(dataStr), isReset).then(
             ({ index, list }) => {
-              this.index = index
+              this.index = 22 // index
               this.exerciseList = list
 
               console.log('vue页面得到数据')
@@ -225,23 +309,21 @@ export default {
     },
 
     // [单选题]选择后 并绑定 {name:当前自己勾选项，id：id标识，successIndex：正确答案选项}
-    groupRadioChange({ name, id, successIndex }) {
-      const ab = this.exerciseList[this.index]
-
+    groupRadioChange({ name, successIndex }) {
+      const ab = this.currAnswer
       ab.answer.id = ab.id
       ab.answer.judge = name == successIndex ? 1 : 0 // 自己选项 是否 对于正确选项，1正确，0错误
-      this.$set(this.exerciseList, this.index, ab)
+      this.saveAnswer()
     },
 
     // [填空题]选择后
     onSubmitQuestion() {
-      console.log(this.index)
-      const ab = this.exerciseList[this.index]
+      const ab = this.currAnswer
 
-        // todo 提交后 还要让用户自己判断 答对答错
+      // todo 提交后 还要让用户自己判断 答对答错
       ab.answer.id = ab.id
-      
-    },
+      this.saveAnswer()
+    }
   }
 }
 </script>
@@ -279,7 +361,7 @@ export default {
       // 题目
       .answer-title {
         margin-top: 10px;
-        background: #f0f0f0;
+        background: #f3f4f6;
         padding: 15px;
         border-radius: 10px;
       }
@@ -294,6 +376,17 @@ export default {
       .analysis-answer {
         .fw-600 {
           margin: 30rpx 0;
+        }
+
+        .juage-box {
+          .bnt {
+            width: 45%;
+          }
+          .bnt-error {
+            background: #f2c548;
+            border-color: #f2c548;
+            color: #303133;
+          }
         }
       }
     }

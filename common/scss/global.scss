@@ -121,6 +121,14 @@ ul {
     justify-content: flex-end;
 }
 
+.m-right-2 {
+    margin-right: 4rpx;
+}
+
+.m-left-2 {
+    margin-left: 4rpx;
+}
+
 
 
 /*-------------- 布局 END ------------*/
@@ -146,7 +154,9 @@ ul {
     display: inline-block;
 }
 
-.u-input {
+// uView 样式
+.u-input,
+.u-textarea {
     border: 1px solid #f0f0f0;
 }
 

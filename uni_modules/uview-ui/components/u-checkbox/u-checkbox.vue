@@ -112,7 +112,7 @@
 			},
 			// 组件的形状
 			elShape() {
-				return this.shape ? this.shape : (this.parentData.shape ? this.parentData.shape : 'circle');
+				return 'circle' || this.shape ? this.shape : (this.parentData.shape ? this.parentData.shape : 'circle');
 			},
 			// label大小
 			elLabelSize() {
@@ -133,6 +133,7 @@
 			iconClasses() {
 				let classes = []
 				// 组件的形状
+                console.log('y:', this.elShape);
 				classes.push('u-checkbox__icon-wrap--' + this.elShape)
 				if (this.elDisabled) {
 					classes.push('u-checkbox__icon-wrap--disabled')

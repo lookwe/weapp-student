@@ -34,16 +34,16 @@
 							>{{ item[keyName] }}</text>
 							<u-badge
 								:show="!!(item.badge && (item.badge.show || item.badge.isDot || item.badge.value))"
-								:isDot="item.badge && item.badge.isDot || $u.props.badge.isDot"
-								:value="item.badge && item.badge.value || $u.props.badge.value"
-								:max="item.badge && item.badge.max || $u.props.badge.max"
-								:type="item.badge && item.badge.type || $u.props.badge.type"
-								:showZero="item.badge && item.badge.showZero || $u.props.badge.showZero"
-								:bgColor="item.badge && item.badge.bgColor || $u.props.badge.bgColor"
-								:color="item.badge && item.badge.color || $u.props.badge.color"
-								:shape="item.badge && item.badge.shape || $u.props.badge.shape"
-								:numberType="item.badge && item.badge.numberType || $u.props.badge.numberType"
-								:inverted="item.badge && item.badge.inverted || $u.props.badge.inverted"
+								:isDot="item.badge && item.badge.isDot || propsBadge.isDot"
+								:value="item.badge && item.badge.value || propsBadge.value"
+								:max="item.badge && item.badge.max || propsBadge.max"
+								:type="item.badge && item.badge.type || propsBadge.type"
+								:showZero="item.badge && item.badge.showZero || propsBadge.showZero"
+								:bgColor="item.badge && item.badge.bgColor || propsBadge.bgColor"
+								:color="item.badge && item.badge.color || propsBadge.color"
+								:shape="item.badge && item.badge.shape || propsBadge.shape"
+								:numberType="item.badge && item.badge.numberType || propsBadge.numberType"
+								:inverted="item.badge && item.badge.inverted || propsBadge.inverted"
 								customStyle="margin-left: 4px;"
 							></u-badge>
 						</view>
@@ -147,6 +147,9 @@
 					}
 					return uni.$u.deepMerge(customeStyle, style)
 				}
+			},
+			propsBadge() {
+				return uni.$u.props.badge
 			}
 		},
 		async mounted() {
@@ -162,7 +165,17 @@
 				let lineOffsetLeft = this.list
 					.slice(0, this.innerCurrent)
 					.reduce((total, curr) => total + curr.rect.width, 0);
-				this.lineOffsetLeft = lineOffsetLeft + (tabItem.rect.width - this.lineWidth) / 2
+				let lineWidth = this.lineWidth; // 拷贝副本，防止间接修改props中的值
+				// 如果lineWidth不是数字类型的话
+				if (typeof lineWidth !== 'number') {
+					// 判断后缀是否为rpx
+					if (lineWidth.indexOf('rpx') > -1) {
+						lineWidth = uni.upx2px(parseFloat(lineWidth)); // rpx -> px
+					} else {
+						lineWidth = parseFloat(lineWidth);
+					}
+				}
+				this.lineOffsetLeft = lineOffsetLeft + (tabItem.rect.width - lineWidth) / 2
 				// #ifdef APP-NVUE
 				// 第一次移动滑块，无需过渡时间
 				this.animation(this.lineOffsetLeft, this.firstTime ? 0 : parseInt(this.duration))
@@ -265,7 +278,7 @@
 			queryRect(el, item) {
 				// #ifndef APP-NVUE
 				// $uGetRect为uView自带的节点查询简化方法，详见文档介绍：https://www.uviewui.com/js/getRect.html
-				// 组件内部一般用this.$uGetRect，对外的为this.$u.getRect，二者功能一致，名称不同
+				// 组件内部一般用this.$uGetRect，对外的为uni.$u.getRect，二者功能一致，名称不同
 				return new Promise(resolve => {
 					this.$uGetRect(`.${el}`).then(size => {
 						resolve(size)
