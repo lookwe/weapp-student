@@ -75,7 +75,8 @@ export default {
     // 将其他的checkbox设置为未选中的状态 并返回正确选项
     unCheckedOther(childInstance) {
       const values = []
-      const successIndexs = []
+
+      let isSuccess = true
       this.children.map((child) => {
         // 将被选中的checkbox，放到数组中返回
         if (child.isChecked) {
@@ -83,20 +84,20 @@ export default {
             id: child.id,
             content: child.name
           })
-        }
 
-        // 遍历正确选项是那些
-        if (child.success == 1) {
-          successIndexs.push(child.name)
+          // 判断勾选的是否答对, 如果答错一道则视为错
+          if (isSuccess) {
+            isSuccess = child.success == 1
+          }
         }
       })
 
       // 发出事件
-      this.$emit('change', values, successIndexs)
+      this.$emit('change', values, isSuccess)
       // 修改通过v-model绑定的值
       this.$emit('input', values)
 
-      return successIndexs
+      return isSuccess
     }
   }
 }

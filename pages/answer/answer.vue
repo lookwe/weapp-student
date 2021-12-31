@@ -41,6 +41,7 @@
           </view>
 
           <!-- 题干 -->
+
           <view class="answer-stem">
             <!-- 问答 -->
             <view v-if="item.exerciseType == 1">
@@ -55,15 +56,12 @@
               <u-button
                 type="primary"
                 text="提交"
-                @click="onSubmitQuestion"
+                @click="saveBinID"
               ></u-button>
             </view>
 
-            <!-- 判断 -->
-            <view v-if="item.exerciseType == 2"> </view>
-
-            <!-- 单选 -->
-            <view v-if="item.exerciseType == 3 && item.answer.answer[0]">
+            <!-- 单选 判断 -->
+            <view v-if="[2, 3].includes(item.exerciseType)">
               <view class="u-demo-block__content">
                 <view class="u-page__radio-item">
                   <u-radio-group
@@ -116,7 +114,23 @@
             </view>
 
             <!-- 填空 -->
-            <view v-if="item.exerciseType == 5"> </view>
+            <view v-if="item.exerciseType == 5">
+              <view class="u-box">
+                <u-input
+                  v-for="(_item, _index) in item.exerciseOptionVOS"
+                  :key="_index"
+                  v-model="item.answer.answer[_index].content"
+                  clearable
+                  :disabled="!!item.answer.id"
+                  placeholder="请输入正确答案"
+                ></u-input>
+              </view>
+              <u-button
+                type="primary"
+                text="提交"
+                @click="saveBinID"
+              ></u-button>
+            </view>
 
             <!-- 综合 -->
             <view v-if="item.exerciseType == 6"> </view>
@@ -156,10 +170,13 @@
             <view class="fz-15 u-box analysis-answer m-b-30">
               <view class="fz-16 fw-600">习题解析</view>
 
-              <!-- 问答-填空题 -- 正确答案  -->
-              <view class="c-primary" v-if="[1, 5].includes(item.exerciseType)">
+              <!-- 问填空题 -- 正确答案 TODO 兼容小程序 -->
+              <view class="c-primary" v-if="[5].includes(item.exerciseType)">
                 正确答案：
-                <text v-html="'C'"></text>
+                <text
+                  class="com-parse-html"
+                  v-html="computSuccess(item.exerciseOptionVOS, true)"
+                ></text>
               </view>
 
               <!-- 判断，单选、多选 =》 正确答案  -->
@@ -190,7 +207,9 @@
               <!-- 用户判断对错按钮 -->
               <view
                 v-if="
-                  item.answer.judge == -1 && [1, 5].includes(item.exerciseType)
+                  item.answer.judge == -1 &&
+                  [1, 5].includes(item.exerciseType) &&
+                  item.answer.id
                 "
                 class="flex jsb juage-box u-box"
               >
@@ -255,31 +274,6 @@ export default {
   },
 
   methods: {
-    saveAnswer() {
-      this.$set(this.exerciseList, this.index, this.currAnswer)
-    },
-    sectionChange({ target }) {
-      const { current } = target
-      this.index = current
-    },
-    // 计算正确答案
-    computSuccess(arr) {
-      const strArr = []
-      arr.forEach((item) => {
-        if (item.isCorrect == 1) {
-          // exerciseOption 选项ID
-          strArr.push(enums.WORD[item.exerciseOption] || '~')
-        }
-      })
-      return strArr.length > 0 && strArr.join()
-    },
-
-    // 用户自行判断对错
-    onUserJudge(judge) {
-      const ab = this.currAnswer
-      ab.answer.judge = judge
-      this.saveAnswer()
-    },
     initData(obj, isReset) {
       delete obj.title
       const params = {
@@ -290,55 +284,77 @@ export default {
         try {
           if (!data) return
 
-          let dataStr = JSON.stringify(data)
-          dataStr = dataStr
-            .replace(/<\$\$>.*?<\/\$\$>/g, '')
-            .replace(
-              /<image>(.*?)<\/image>/g,
-              '<view class=\\"cursor-p\\"> <image mode=\\"scaleToFill\\" src=\\"data:image/png;base64,$1\\"></image> </view>'
-            )
-
           // 读取进度 并转 前端格式
-          readTxtFile(params, JSON.parse(dataStr), isReset).then(
-            ({ index, list }) => {
-              this.index = 22 // index
-              this.exerciseList = list
+          readTxtFile(params, data, isReset).then(({ index, list }) => {
+            this.index = index
+            this.exerciseList = list
 
-              console.log('vue页面得到数据')
-              console.log(this.exerciseList)
-            }
-          )
+            console.log('vue页面得到数据')
+            console.log(this.exerciseList)
+          })
         } catch (error) {
           console.error(`img标签解析失败：${error}`)
         }
       })
     },
 
-    // [单选题]选择后 并绑定 {name:当前自己勾选项，id：id标识，successIndex：正确答案选项}
-    groupRadioChange({ name, successIndex }) {
+    // 绑定 题目ID 到答题卡中
+    saveBinID(coutom) {
       const ab = this.currAnswer
+      if (ab.answer.id) return
       ab.answer.id = ab.id
-      ab.answer.judge = name == successIndex ? 1 : 0 // 自己选项 是否 对于正确选项，1正确，0错误
+      ab.answer = Object.assign(ab.answer, coutom)
       this.saveAnswer()
     },
 
-    // [填空题]选择后
-    onSubmitQuestion() {
+    // 用户自行判断对错
+    onUserJudge(judge) {
       const ab = this.currAnswer
-      ab.answer.id = ab.id
+      ab.answer.judge = judge
       this.saveAnswer()
+    },
+
+    // [单选题]选择后 并绑定 {name:当前自己勾选项，id：id标识，successIndex：正确答案选项}
+    groupRadioChange({ name, successIndex }) {
+      this.saveBinID({
+        judge: name == successIndex ? 1 : 0 // 自己选项 是否 对于正确选项，1正确，0错误
+      })
     },
 
     // [多选题] 提交按钮
     onSubmitCheckbox() {
-      const ab = this.currAnswer
-      if (ab.answer.id) return
+      const isSuccess =
+        this.$refs['answerCheckbox' + this.index][0].unCheckedOther() // 提 显示正确与错误答案
+      this.saveBinID({
+        judge: isSuccess ? 1 : 0
+      })
+    },
 
-      ab.answer.id = ab.id
-      const successIndexs =
-        this.$refs['answerCheckbox' + this.index][0].unCheckedOther() // 获取正确选项
-
-      console.log(successIndexs)
+    // set 保存当前答题
+    saveAnswer() {
+      this.$set(this.exerciseList, this.index, this.currAnswer)
+    },
+    sectionChange({ target }) {
+      const { current } = target
+      this.index = current
+    },
+    // 计算正确答案
+    computSuccess(arr, isInput = false) {
+      const strArr = []
+      if (isInput) {
+        arr.forEach((item, index) => {
+          if (item.isCorrect == 1) {
+            strArr.push(`${index + 1}: ${item.exerciseOptionContent} `)
+          }
+        })
+      } else {
+        arr.forEach((item) => {
+          if (item.isCorrect == 1) {
+            strArr.push(enums.WORD[item.exerciseOption] || '~')
+          }
+        })
+      }
+      return strArr.length > 0 && strArr.join()
     }
   }
 }
@@ -391,7 +407,7 @@ export default {
       // 解析
       .analysis-answer {
         .fw-600 {
-          margin: 30rpx 0;
+          margin: 0 0 15px;
         }
 
         .juage-box {
