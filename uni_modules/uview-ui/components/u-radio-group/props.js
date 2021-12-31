@@ -80,6 +80,12 @@ export default {
         iconPlacement: {
             type: String,
             default: uni.$u.props.radio.iconPlacement
-        }
+        },
+
+        // 是否需要 使用 正确对错判断 incoc CSS
+        isDefuCSS: {
+            type: Boolean,
+            default: true
+        },
     }
 }

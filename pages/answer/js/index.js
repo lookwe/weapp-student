@@ -18,21 +18,22 @@ export function readTxtFile(params, list, isReset) {
     return new Promise((resolve) => {
         const defaultObj = {
             index: 0,
-            list
+            list: listSaveAnswer(list)
         }
 
+        // 不获取答题记录，直接返回 新试卷 并附加 answer 答题卡类
         if (isReset) {
             resolve(defaultObj)
             return
         }
 
+        // 获取用户答题记录
         myCourse.getExerciseSchedule(params).then((data) => {
             console.log('历史记录文件：', data);
             if (!data) {
                 resolve(defaultObj)
             } else {
                 // $store.getters.getToken,
-
                 http.get(data.exerciseSnapshotUrl, {
                     custom: {
                         backRespon: true
@@ -40,22 +41,47 @@ export function readTxtFile(params, list, isReset) {
                     header: {
                         'content-type': ' ',
                     },
-                    //responseType: 'text',
-
                 }).then((data) => {
-                    console.log('有、答题记录---');
+                    console.log('有、答题记录----------');
                     console.log(data);
                 })
 
-                resolve({
-                    list: list,
-                    index: 0,
-                    isInit: false,
-                })
+                // resolve({
+                //     list: list,
+                //     index: 0,
+                // })
+
+                resolve(defaultObj)
+
             }
         }).catch(e => {
             console.error(e);
             resolve(defaultObj)
         })
     })
+}
+
+// 为试卷每道题加入 answer 对象
+function listSaveAnswer(list = []) {
+    return list.map(item => {
+        return {
+            isShowAnalysis: false, // todo, 判断是否显示解析
+            ...item,
+            answer: getAnswer()
+        }
+    })
+}
+
+// 返回一个完整的 答题卡类
+function getAnswer() {
+    const answer = {
+        judge: -1, // 0:错误,1：正确,-1：未判断（简答题，填空题需要用户自行判断正确）
+        id: 0,
+        parentId: 0,
+        answer: [{
+            content: '',
+            id: ''
+        }]
+    }
+    return answer
 }
