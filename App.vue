@@ -1,8 +1,6 @@
 <script>
 export default {
-  globalData: {
-    userName: 'hzf'
-  },
+  globalData: {},
   onLaunch: function () {
     //console.log('App Launch，app启动')
   },

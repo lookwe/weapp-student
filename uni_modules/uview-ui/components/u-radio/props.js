@@ -59,6 +59,15 @@ export default {
         labelColor: {
             type: String,
             default: uni.$u.props.radio.labelColor
-        }
+        },
+        id: {
+            type: [String, Number],
+            default: '0'
+        },
+        // 正确选项
+        success: {
+            type: [String, Number],
+            default: 0
+        },
     }
 }

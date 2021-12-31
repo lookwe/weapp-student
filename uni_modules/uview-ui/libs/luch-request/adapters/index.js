@@ -1,9 +1,7 @@
 import buildURL from '../helpers/buildURL'
 import buildFullPath from '../core/buildFullPath'
 import settle from '../core/settle'
-import {
-    isUndefined
-} from '../utils'
+import { isUndefined } from '../utils'
 
 /**
  * 返回可选值存在的配置
@@ -34,7 +32,8 @@ export default (config) => new Promise((resolve, reject) => {
                     response.data = JSON.parse(response.data)
                 }
                 // eslint-disable-next-line no-empty
-            } catch (e) {}
+            } catch (e) {
+            }
             settle(resolve, reject, response)
         }
     }
@@ -43,14 +42,14 @@ export default (config) => new Promise((resolve, reject) => {
         delete _config.header['content-type']
         delete _config.header['Content-Type']
         const otherConfig = {
-            // #ifdef MP-ALIPAY
+        // #ifdef MP-ALIPAY
             fileType: config.fileType,
             // #endif
             filePath: config.filePath,
             name: config.name
         }
         const optionalKeys = [
-            // #ifdef APP-PLUS || H5
+        // #ifdef APP-PLUS || H5
             'files',
             // #endif
             // #ifdef H5
@@ -61,11 +60,7 @@ export default (config) => new Promise((resolve, reject) => {
             // #endif
             'formData'
         ]
-        requestTask = uni.uploadFile({
-            ..._config,
-            ...otherConfig,
-            ...mergeKeys(optionalKeys, config)
-        })
+        requestTask = uni.uploadFile({ ..._config, ...otherConfig, ...mergeKeys(optionalKeys, config) })
     } else if (config.method === 'DOWNLOAD') {
         // #ifdef H5 || APP-PLUS
         if (!isUndefined(config.timeout)) {
@@ -92,12 +87,9 @@ export default (config) => new Promise((resolve, reject) => {
             // #endif
             // #ifdef APP-PLUS
             'firstIpv4'
-            // #endif
+        // #endif
         ]
-        requestTask = uni.request({
-            ..._config,
-            ...mergeKeys(optionalKeys, config)
-        })
+        requestTask = uni.request({ ..._config, ...mergeKeys(optionalKeys, config) })
     }
     if (config.getTask) {
         config.getTask(requestTask, config)

@@ -76,7 +76,13 @@ export default {
         borderBottom: {
             type: Boolean,
             default: uni.$u.props.checkboxGroup.borderBottom
-        }
+        },
+
+        // 是否需要 使用 正确对错判断 incoc CSS
+        isDefuCSS: {
+            type: Boolean,
+            default: true
+        },
 
     }
 }

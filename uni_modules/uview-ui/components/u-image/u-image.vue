@@ -29,7 +29,9 @@
 				class="u-image__loading"
 				:style="{
 					borderRadius: shape == 'circle' ? '50%' : $u.addUnit(radius),
-					backgroundColor: this.bgColor
+					backgroundColor: this.bgColor,
+					width: $u.addUnit(width),
+					height: $u.addUnit(height)
 				}"
 			>
 				<slot name="loading">
@@ -44,7 +46,9 @@
 				v-if="showError && isError && !loading"
 				class="u-image__error"
 				:style="{
-					borderRadius: shape == 'circle' ? '50%' : $u.addUnit(radius)
+					borderRadius: shape == 'circle' ? '50%' : $u.addUnit(radius),
+					width: $u.addUnit(width),
+					height: $u.addUnit(height)
 				}"
 			>
 				<slot name="error">
@@ -113,9 +117,10 @@
 					if (!n) {
 						// 如果传入null或者''，或者false，或者undefined，标记为错误状态
 						this.isError = true
-						this.loading = false
+						
 					} else {
 						this.isError = false
+						this.loading = false
 					}
 				}
 			}
@@ -124,7 +129,7 @@
 			wrapStyle() {
 				let style = {};
 				// 如果是显示圆形，设置一个很多的半径值即可
-				style.borderRadius = this.shape == 'circle' ? '10000px' : this.$u.addUnit(this.radius)
+				style.borderRadius = this.shape == 'circle' ? '10000px' : uni.$u.addUnit(this.radius)
 				// 如果设置圆角，必须要有hidden，否则可能圆角无效
 				style.overflow = this.borderRadius > 0 ? 'hidden' : 'visible'
 				// if (this.fade) {

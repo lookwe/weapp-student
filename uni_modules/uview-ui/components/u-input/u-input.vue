@@ -22,8 +22,7 @@
             	    :cursor="cursor"
             	    :value="innerValue"
             	    :auto-blur="autoBlur"
-            	    :disabled="disabled"
-                    :readonly="readonly"
+            	    :disabled="disabled || readonly"
             	    :maxlength="maxlength"
             	    :placeholder="placeholder"
             	    :placeholder-style="placeholderStyle"
@@ -189,7 +188,7 @@ export default {
                 style.paddingLeft = "9px";
                 style.paddingRight = "9px";
             }
-            return uni.$u.deepMerge(style, this.$u.addStyle(this.customStyle));
+            return uni.$u.deepMerge(style, uni.$u.addStyle(this.customStyle));
         },
         // 输入框的样式
         inputStyle() {

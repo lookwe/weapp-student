@@ -49,14 +49,6 @@ ul {
     background: $uni-text-color-inverse;
 }
 
-.primary {
-    color: $u-primary;
-}
-
-.bg-primary {
-    background-color: $u-primary;
-}
-
 // 黑子重要字体 title 字体
 .c-main {
     color: $u-main-color;
@@ -77,9 +69,16 @@ ul {
     color: $u-content-color;
 }
 
+.c-primary {
+    color: $u-primary;
+}
+
+.c-success {
+    color: $u-success;
+}
 
 .c-error {
-    color: #f0544f;
+    color: $u-error;
 }
 
 /*-------------- 颜色 END ------------*/
@@ -122,6 +121,14 @@ ul {
     justify-content: flex-end;
 }
 
+.m-right-2 {
+    margin-right: 4rpx;
+}
+
+.m-left-2 {
+    margin-left: 4rpx;
+}
+
 
 
 /*-------------- 布局 END ------------*/
@@ -147,7 +154,9 @@ ul {
     display: inline-block;
 }
 
-.u-input {
+// uView 样式
+.u-input,
+.u-textarea {
     border: 1px solid #f0f0f0;
 }
 

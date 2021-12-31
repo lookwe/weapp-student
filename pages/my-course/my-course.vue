@@ -61,6 +61,7 @@ export default {
     this.initData()
   },
   methods: {
+    // 跳转付费课程详情
     toBuyCoursePage(item) {
       if (item.effectiveTime2 < 1) {
         return
@@ -71,6 +72,7 @@ export default {
         url: 'pages/buy-course-details/buy-course-details'
       })
     },
+
     initData() {
       this.courseList = []
       myCourseApi.getAllCourse().then((data) => {
