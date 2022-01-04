@@ -15,33 +15,14 @@
               >
               <text>{{ typeName(item.exerciseType) }}</text>
             </view>
-            <view class="fz-14 answer-difficulty">
-              <text v-if="item.exerciseGrade == 1" class="simple box-circu"
-                >易</text
-              >
-              <text v-if="item.exerciseGrade == 2" class="moderate box-circu"
-                >中</text
-              >
-              <text v-if="item.exerciseGrade == 3" class="difficulty box-circu"
-                >难</text
-              >
-            </view>
+
+            <answerTypeTag :exerciseGrade="item.exerciseGrade" />
           </view>
 
           <!-- 题目 -->
-          <view class="answer-title fz-16">
-            <!-- #ifdef MP-WEIXIN -->
-            <!-- <rich-text :nodes="item.exerciseTitle"></rich-text> -->
-            <u-parse :content="item.exerciseTitle"></u-parse>
-            <!-- #endif -->
-
-            <!-- #ifdef H5 -->
-            <text class="com-parse-html" v-html="item.exerciseTitle"></text>
-            <!-- #endif -->
-          </view>
+          <answerTitle :title="item.exerciseTitle"></answerTitle>
 
           <!-- 题干 -->
-
           <view class="answer-stem">
             <!-- 问答 -->
             <view v-if="item.exerciseType == 1">
@@ -133,7 +114,46 @@
             </view>
 
             <!-- 综合 -->
-            <view v-if="item.exerciseType == 6"> </view>
+            <view v-if="item.exerciseType == 6">
+              <view class="answer-childe">
+                <u-collapse :border="false">
+                  <u-collapse-item border>
+                    <u-icon name="tags-fill" size="20" slot="icon"></u-icon>
+                    <text slot="title">综合题题目</text>
+
+                    <swiper class="answer-childe__swiper">
+                      <swiper-item
+                        v-for="(_item, _index) in item.childExercises"
+                        :key="_index"
+                        class="swiper-item"
+                      >
+                        <view class="u-page">
+                          <view class="flex jsb u-box">
+                            <view class="fz-17">
+                              <text class="fw-600"
+                                >{{ _index + 1 }}/{{
+                                  item.childExercises.length
+                                }}</text
+                              >
+                              <text>{{ typeName(_item.exerciseType) }}</text>
+                            </view>
+
+                            <answerTypeTag
+                              :exerciseGrade="_item.exerciseGrade"
+                            />
+                          </view>
+
+                          <!-- 题目 -->
+                          <answerTitle
+                            :title="_item.exerciseTitle"
+                          ></answerTitle>
+                        </view>
+                      </swiper-item>
+                    </swiper>
+                  </u-collapse-item>
+                </u-collapse>
+              </view>
+            </view>
           </view>
 
           <!-- 试题解析 是否正确 反馈 -->
@@ -190,19 +210,7 @@
                 </text>
               </view>
 
-              <view class="answer-title">
-                <!-- #ifdef MP-WEIXIN -->
-                <!-- <rich-text :nodes="item.analysisAnswer"></rich-text> -->
-                <u-parse :content="item.analysisAnswer"></u-parse>
-                <!-- #endif -->
-
-                <!-- #ifdef H5 -->
-                <text
-                  class="com-parse-html"
-                  v-html="item.analysisAnswer"
-                ></text>
-                <!-- #endif -->
-              </view>
+              <answerTitle :title="item.analysisAnswer"></answerTitle>
 
               <!-- 用户判断对错按钮 -->
               <view
@@ -241,8 +249,15 @@ import myCourseApi from '@/models/myCourseModel'
 import { readTxtFile } from './js'
 import * as enums from './js/enumerate'
 
+import answerTypeTag from 'pages/answer/components/answerTypeTag'
+import answerTitle from 'pages/answer/components/answerTitle'
+
 export default {
   name: 'answer',
+  components: {
+    answerTypeTag,
+    answerTitle
+  },
   data() {
     return {
       index: 0,
@@ -365,37 +380,18 @@ export default {
   &__swiper {
     height: calc(100vh - var(--window-top));
 
+    // 综合题
+    .answer-childe {
+      padding: 0;
+      &__swiper {
+        height: calc(100vh - var(--window-top) - 35vh);
+      }
+    }
+
     .swiper-item {
       overflow-y: auto;
       .fw-600 {
         padding-right: 20px;
-      }
-
-      .answer-difficulty {
-        .box-circu {
-          padding: 4px;
-          border-radius: 50%;
-        }
-        .simple {
-          background: #e1ffd2;
-          color: #35a202;
-        }
-        .moderate {
-          background: #fff8e9;
-          color: #fa9d39;
-        }
-        .difficulty {
-          background: #ffd8d6;
-          color: #ff3b30;
-        }
-      }
-
-      // 题目
-      .answer-title {
-        margin-top: 10px;
-        background: #f3f4f6;
-        padding: 15px;
-        border-radius: 10px;
       }
 
       // 题干
